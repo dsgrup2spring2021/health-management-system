@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.PriorityQueue;
 public class Receptionist extends UserClass{
 	
 	//Data fields
@@ -6,7 +8,7 @@ public class Receptionist extends UserClass{
 	/**to add the appointment to patient's appointment list*/
 	private ArrayList<Patient> patients;
 	/**to see appointment list*/
-	private PriorityQueue<Appointments> appointments;	
+	private PriorityQueue<Appointment> appointments;	
 
 	//Methods
 	/**
