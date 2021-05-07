@@ -1,7 +1,7 @@
 /**
  *
  * @author Omer F. Akduman
- * Date: 7.5.21 
+ * Date: 7.5.21
  *
  * Feedbacks: Eklenilmesi gereken, silinmesi, degismesi gereken yerler icin feedbacklerinizi bekliyorum
  */
