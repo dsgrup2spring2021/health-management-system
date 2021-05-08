@@ -1,7 +1,8 @@
-package proje;
 /**
  * class for User
- * @author Ozan Argýt Önçeken
+ * @author Ozan Argï¿½t ï¿½nï¿½eken
+ * // class ismini direkt User yapsak daha iyi olabilir. ve abstract olacaktÄ± galiba
+ * // sanÄ±rÄ±m bu	private PersonalClass person yerine private User person olacak;
  */
 public class UserClass implements UserInterface{
 	private PersonalClass person;
