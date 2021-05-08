@@ -47,6 +47,6 @@ public class Patient extends User{
         return false;
     }
 
-    public void showTestResults(){ }
+    //public void showTestResults(){ }
 
 }
