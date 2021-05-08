@@ -1,9 +1,9 @@
 /**
  *
  * @author Omer F. Akduman
- * Date: 7.5.21
+ * Date: 8.5.21
  *
- * Feedbacks: Eklenilmesi gereken, silinmesi, degismesi gereken yerler icin feedbacklerinizi bekliyorum
+ * Feedbacks:
  */
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -12,14 +12,11 @@ import java.util.Scanner;
 public class Doctor extends User{
 	//Data fields
 	/**stores patientId who is currently appointed*/
-	static int currentPatientId =0;
+	public int currentPatientId =0;
 	/**Doctors can expert a special area*/
 	private static String specialty;
-	/**Stores appointments*/
-	private ArrayList<Int/*Appointment*/> appointments;
-	/**Stores patient list who is appointed before*/
-	private ArrayList<Int/*Patient*/> patients;
-
+	/**Stores free and appointed times*/
+	private ArrayList<Int/*Appointment*/> times;
 
 	/**Constructors*/
 	public Doctor() {
@@ -27,7 +24,7 @@ public class Doctor extends User{
 
 	//Setters and getters
 	/** get the current id who is currently appointed*/
-	public static int getCurrentPID{
+	public int getCurrentPID{
 		return currentPatientId;
 	}
 
@@ -41,10 +38,6 @@ public class Doctor extends User{
 		return currentPatientId;
 	}
 
-	/**Adds appointment*/
-	public void addAppointment(Appointment app){
-		return;
-	}
 
 	/**Doctors can view their patients-patients history and appointment list*/
 	public void viewPatientList(){
