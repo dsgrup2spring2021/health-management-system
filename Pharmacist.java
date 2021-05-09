@@ -19,4 +19,7 @@ public class Pharmacist extends User{
 	/**Set/Arrange medicines in the hospital*/
 	public void arrangeMedicines(){}
 
+	/**Shows the medicines*/
+	public showMedicines(){}
+
 }
