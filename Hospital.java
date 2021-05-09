@@ -48,7 +48,7 @@ public class Hospital {
 		return this.prescriptions;
 	}
 	
-	public PriorityQueue<Appointments> getAppointments(){
+	public PriorityQueue<Appointment> getAppointments(){
 		return this.appointments;
 	}
 	
