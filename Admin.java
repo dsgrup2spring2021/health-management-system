@@ -5,6 +5,9 @@
  */
 public class Admin extends User{
 	
+	public Admin(PersonalClass data,Hospital hospital) {
+		
+	}
 	public boolean addDoctor(Doctor doctor) {
 		return true;
 	}
@@ -25,7 +28,7 @@ public class Admin extends User{
 		return true;
 	}
 
-	public boolean addAppointment(Appointments appointment) {
+	public boolean addAppointment(Appointment appointment) {
 		return true;
 	}
 	
@@ -49,7 +52,7 @@ public class Admin extends User{
 		return true;
 	}
 
-	public boolean removeAppointment(Appointments appointment) {
+	public boolean removeAppointment(Appointment appointment) {
 		return true;
 	}
 	
@@ -57,7 +60,7 @@ public class Admin extends User{
 		
 	}
 	
-	public void editAppointment(Appointments appointment) {
+	public void editAppointment(Appointment appointment) {
 		
 	}
 	
