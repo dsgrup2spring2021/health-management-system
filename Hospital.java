@@ -14,9 +14,14 @@ public class Hospital {
 	private ArrayList<Receptionist> receptionists;
 	private ArrayList<Pharmacist> pharmacists;
 	private ArrayList<Prescription> prescriptions; 
-	private TreeSet<UserInterface> allUsers;
+	private BinarySearchTree<UserInterface> allUsers;
 	private PriorityQueue<Appointment> appointments;
+	private ArrayList<DailyHistory> dailyHistory;
 	
+	public Hospital(String name) {
+		this.hospitalName=name;
+		//to be continued
+	}
 	public String getName() {
 		return this.hospitalName;
 	}
@@ -52,6 +57,13 @@ public class Hospital {
 		return this.appointments;
 	}
 	
+	public ArrayList<DailyHistory> getDailyHistory() {
+		return this.dailyHistory;
+	}
+	
+	public BinarySearchTree<UserInterface> getAllUsers() {
+		return this.allUsers;
+	}
 	public User getUserByID(String id){
 		return null;
 	}
