@@ -15,7 +15,7 @@ public class Hospital {
 	private ArrayList<Pharmacist> pharmacists;
 	private ArrayList<Prescription> prescriptions; 
 	private TreeSet<UserInterface> allUsers;
-	private PriorityQueue<Appointments> appointments;
+	private PriorityQueue<Appointment> appointments;
 	
 	public String getName() {
 		return this.hospitalName;
