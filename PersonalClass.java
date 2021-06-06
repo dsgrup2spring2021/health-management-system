@@ -1,9 +1,12 @@
 package proje;
+import java.util.Scanner;
+
 /**
  * A class for all people's same features
  * (all people have name ,surname,id,mail and password)
+ * @author Ozan Argit Onceken
  */
-public abstract class PersonalClass {
+public class PersonalClass{
 	private static int idHolder=1000;
 	private int id;
 	private String name;
@@ -14,9 +17,25 @@ public abstract class PersonalClass {
 	 * constructor
 	 */
 	public PersonalClass() {
-		this.setId(-1);
-		this.setName(null);
-		this.setSurname(null);
+		Scanner x=new Scanner(System.in);
+		this.setId(idHolder);
+		System.out.println("Name:");
+		this.setName(x.nextLine());
+		System.out.println("Surname");
+		this.setSurname(x.nextLine());
+		System.out.println("Mail:");
+		this.setMail(x.nextLine());
+		System.out.println("Password:");
+		this.setPassword(x.nextLine());
+		idHolder++;
+		x.close();
+	}
+	public PersonalClass(boolean x) {
+		this.setId(idHolder);
+		this.setName("NULL");
+		this.setSurname("NULLL");
+		this.setMail("NULL");
+		this.setPassword("NULL");
 		idHolder++;
 	}
 	/**
@@ -88,6 +107,17 @@ public abstract class PersonalClass {
 	 */
 	public void setMail(String mail) {
 		this.mail = mail;
+	}
+	/**
+	*@param	o			other person
+	*@return			returns 0 if they are same
+	*/
+	public int compareTo(PersonalClass o) {
+
+		if(o.getMail().equals(this.getMail()))
+			if(o.getPassword().equals(this.getPassword()))
+				return 0;
+		return -1;
 	}
 	
 }
