@@ -4,7 +4,7 @@
  */
 import java.util.Scanner;
 
-public class UserClass{
+public class UserClass implements UserInterface{
 	private PersonalClass person;
 	public UserClass() {
 	}
