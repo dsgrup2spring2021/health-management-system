@@ -1,19 +1,30 @@
 /**
  * class for User
- * @author Ozan Arg�t �n�eken
- * // class ismini direkt User yapsak daha iyi olabilir. ve abstract olacaktı galiba
- * // sanırım bu	private PersonalClass person yerine private User person olacak;
+ * @author Ozan Argit Onceken
  */
-public class UserClass implements UserInterface{
+import java.util.Scanner;
+
+public class UserClass{
 	private PersonalClass person;
 	public UserClass() {
-		
 	}
 	/**
 	 * @return					returns true if login succesfully happened
 	 */
-	public boolean login() {
-		return true;
+	public boolean login(BinarySearchTree<UserInterface> users) {
+		person=new PersonalClass(true);//sets a temporary person
+		Scanner scan=new Scanner(System.in);
+		System.out.println("Enter mail:");
+		person.setMail(scan.nextLine());
+
+		System.out.println("Enter password:");
+		person.setMail(scan.nextLine());
+		
+		scan.close();
+		if(users.find(person)==null)
+			return false;
+		else
+			return true;
 	}
 	/**
 	 * method for login(mail and password sent from driver)
@@ -21,14 +32,19 @@ public class UserClass implements UserInterface{
 	 * @param password			password for person's password
 	 * @return					returns true if login succesfully happened
 	 */
-	public boolean login(String mail,String password) {
-		return true;
+	public boolean login(BinarySearchTree<UserInterface> users,String mail,String password) {
+		person.setMail(mail);
+		person.setPassword(password);
+		if(users.find(person)==null)
+			return false;
+		else
+			return true;
 	}
 	/**
 	 *	method for register for first time
 	 * 
 	 */
 	public void register() {
-		
+		person=new PersonalClass();
 	}
 }
