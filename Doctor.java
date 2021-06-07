@@ -48,5 +48,8 @@ public class Doctor extends User{
 	public void givePrescribe(){
 
 	}
+	//bunu eklemem gerekti
+	public void showFreeTime(){
 
+	}
 }
