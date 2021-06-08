@@ -56,9 +56,6 @@ public abstract class UserClass implements UserInterface, Comparable<User>{
 	public void register() {
 		person=new PersonalClass();
 	}
-
-	//--------------------------------------------
-	//Bazı düzenlemeler yapmam gerekti
 	
 	/**
 	 * @param o 			other data for compare
