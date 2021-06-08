@@ -1,4 +1,6 @@
-package proje;
+
+package poroje;
+
 import java.util.Scanner;
 
 /**
@@ -37,6 +39,36 @@ public class PersonalClass{
 		this.setMail("NULL");
 		this.setPassword("NULL");
 		idHolder++;
+	}
+	public PersonalClass(String mail,String passwd) {
+		this.setId(idHolder);
+		this.setName("NULL");
+		this.setSurname("NULLL");
+		this.setMail(mail);
+		this.setPassword(passwd);
+		idHolder++;
+	}
+	
+	
+	
+
+	/**
+	 * for change something in profile
+	 */
+	public void edit() {
+		Scanner x=new Scanner(System.in);
+		this.setId(idHolder);
+		System.out.println("Name:");
+		this.setName(x.nextLine());
+		System.out.println("Surname");
+		this.setSurname(x.nextLine());
+		System.out.println("Mail:");
+		this.setMail(x.nextLine());
+		System.out.println("Password:");
+		this.setPassword(x.nextLine());
+		idHolder++;
+		x.close();
+		
 	}
 	/**
 	 * gets id
@@ -108,10 +140,6 @@ public class PersonalClass{
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
-	/**
-	*@param	o			other person
-	*@return			returns 0 if they are same
-	*/
 	public int compareTo(PersonalClass o) {
 
 		if(o.getMail().equals(this.getMail()))
