@@ -1,4 +1,5 @@
 
+package poroje;
 
 import java.util.Scanner;
 
@@ -8,7 +9,7 @@ import java.util.Scanner;
  * @author Ozan Argit Onceken
  */
 public class PersonalClass{
-	private static int idHolder = 0;
+	private static int idHolder=1000;
 	private int id;
 	private String name;
 	private String surname;
@@ -17,30 +18,9 @@ public class PersonalClass{
 	/**
 	 * constructor
 	 */
-	public PersonalClass(String name, String surname, String mail, String password) {
-		this.name = name;
-		this.surname = surname;
-		this.mail = mail;
-		this.password = password;
-		this.id = idHolder;
-		idHolder++;
-	}
-
-	public PersonalClass(String mail,String passwd) {
-		this.setId(idHolder);
-		this.setName("NULL");
-		this.setSurname("NULLL");
-		this.setMail(mail);
-		this.setPassword(passwd);
-		idHolder++;
-	}
-
-	/**
-	 * for change something in profile
-	 */
-	public void edit() {
+	public PersonalClass() {
 		Scanner x=new Scanner(System.in);
-		//this.setId(idHolder);
+		this.setId(idHolder);
 		System.out.println("Name:");
 		this.setName(x.nextLine());
 		System.out.println("Surname");
@@ -49,9 +29,46 @@ public class PersonalClass{
 		this.setMail(x.nextLine());
 		System.out.println("Password:");
 		this.setPassword(x.nextLine());
-		//idHolder++;
+		idHolder++;
 		x.close();
+	}
+	public PersonalClass(boolean x) {
+		this.setId(idHolder);
+		this.setName("NULL");
+		this.setSurname("NULLL");
+		this.setMail("NULL");
+		this.setPassword("NULL");
+		idHolder++;
+	}
+	public PersonalClass(String mail,String passwd) {
+		this.setId(idHolder);
+		this.setName("NULL");
+		this.setSurname("NULLL");
+		this.setMail(mail);
+		this.setPassword(passwd);
+		idHolder++;
+	}
+	
+	
+	
 
+	/**
+	 * for change something in profile
+	 */
+	public void edit() {
+		Scanner x=new Scanner(System.in);
+		this.setId(idHolder);
+		System.out.println("Name:");
+		this.setName(x.nextLine());
+		System.out.println("Surname");
+		this.setSurname(x.nextLine());
+		System.out.println("Mail:");
+		this.setMail(x.nextLine());
+		System.out.println("Password:");
+		this.setPassword(x.nextLine());
+		idHolder++;
+		x.close();
+		
 	}
 	/**
 	 * gets id
@@ -130,12 +147,5 @@ public class PersonalClass{
 				return 0;
 		return -1;
 	}
-
-
-	@Override
-	public String toString(){
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("ID: " + this.getId() + " | Name: " + this.getName() + " | Surname: " + this.getSurname() + " | Mail: " + this.getMail());
-		return stringBuilder.toString();
-	}
+	
 }

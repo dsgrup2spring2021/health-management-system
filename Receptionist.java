@@ -1,19 +1,21 @@
 import java.util.ArrayList;
-/**
-* A class of Receptionist
-* @author Emine Sultan Savran
-*/
-public class Receptionist extends User{
+import java.util.PriorityQueue;
+public class Receptionist extends UserClass{
 	
 	//Data fields
-
+	/**to add the appointment to doctor's appointment list*/
+	private ArrayList<Doctor> doctors;
+	/**to add the appointment to patient's appointment list*/
+	private ArrayList<Patient> patients;
+	/**to see appointment list*/
+	private PriorityQueue<Appointment> appointments;	
 
 	//Methods
 	/**
 	* Constructor
 	*/
-	Receptionist(PersonalClass person, Hospital hospital){
-		super(person, hospital);
+	Receptionist(){
+		//PersonalClass tipinde parametre alabilir belki
 		//Create new receptionist	
 	}
 
@@ -22,31 +24,16 @@ public class Receptionist extends User{
 	
 	public boolean addPatient(Patient patient){
 		/*zaten var olan hasta tekrar eklenmek istenirse -> false*/
-		if( getHospital().getPatients().contains(patient) ){
-			System.out.println("WARNING: Cannot add. The patient already exists.");
-			return false;
-		}
-		getHospital().getPatients().add(patient);
 		return true;
 	}
 
 	public boolean addAppointment(Appointment appointment){
 		/*dolu olan bi tarihe eklenmek istenirse -> false*/
-		if( getHospital().getAppointments().contains(appointment) ){
-			System.out.println("WARNING: Cannot add. The appointment is full.");
-			return false;
-		}
-		getHospital().getAppointments().offer(appointment);
 		return true;
 	}
 
 	public boolean removeAppointment(Appointment appointment){
 		/*hastanın böyle bi randevusu yoksa remove da edilemez -> false */
-		if( !getHospital().getAppointments().contains(appointment) ){
-			System.out.println("WARNING: Cannot remove. The appointment does not exist.");
-			return false;
-		}
-		getHospital().getAppointments().remove(appointment);
 		return true;
 	}
 
@@ -56,14 +43,14 @@ public class Receptionist extends User{
 		return true;
 	}
 
-	public boolean isDoctorAvailable(Doctor doctor, Appointment appointment){
+	public boolean isDoctorAvailable(Appointment appointment){
 		/*Doktorun bu appointment zamanında başka bir appointmentı
 		varsa -> false
 		yoksa -> true*/
 		return true;
 	}
 
-	public boolean showDoctorsTimeSlot(Doctor doctor){
+	public boolean showDoctorsTimeSlot(){
 		/*Doktorun boş zamanı yoksa->false*/
 		return true;
 	}
