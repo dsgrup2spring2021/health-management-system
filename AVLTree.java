@@ -3,9 +3,7 @@
  *  @author Koffman and Wolfgang
  */
 
-public class AVLTree < E
-    extends Comparable < E >>
-    extends BinarySearchTreeWithRotate < E > {
+public class AVLTree < E extends Comparable < E >> extends BinarySearchTreeWithRotate < E > {
 
   // Insert nested class AVLNode<E> here.
 

@@ -35,7 +35,7 @@ public class Patient extends User{
 
 
 
-    public void makeAppointment(Appointments appointment) { }
+    public void makeAppointment(Appointment appointment) { }
 
     public boolean chooseDoctor(Doctor doctor) { return true; }
 
@@ -49,4 +49,14 @@ public class Patient extends User{
 
     //public void showTestResults(){ }
 
+    /**
+    * sees a specific user's suggestions
+    * @param user the user(doctor or pharmacist)
+    */
+    public void showSuggestions(User user){
+        if(user instanceof Doctor || user instanceof Pharmacist)
+            System.out.println(getHospital().getRelatedUsers().print(user));
+        else
+            throw new IllegalArgumentException();
+    }
 }
