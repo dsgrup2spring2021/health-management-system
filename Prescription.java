@@ -2,32 +2,33 @@ import java.util.ArrayList;
 /**
 * A class to keep medicine
 * information given to the patient
+* @author Emine Sultan Savran
 */
 public class Prescription{
 
 	//Data fields
+	/**to hold owner of the prescription*/
+	private Patient patient;
 	/**to hold names of the meds*/
 	private ArrayList<String> meds;
 
 	//Methods
 	/**
 	* Constructor
-	* to create empty prescription 
+	* to create empty prescription for the patient
+	* @param patient owner of the prescription
 	*/
-	Prescription(){
-		meds = new ArrayList<String>();
+	public Prescription(Patient patient){
+		this.patient = patient;
+		meds = new ArrayList<String>(10);
 	}
 
 	/**
-	* Adds medicine to the prescription
-	* If this medicine is already on the list, 
-	* it will not be added again
-	* Only doctors can use this action
-	* @param medicineName medicine name as a string
+	* tells who owns the prescription
+	* @return owner of the prescription
 	*/
-	protected void addMedicine(String medicineName){
-		if( !meds.contains( medicineName ) )
-			meds.add(medicineName);
+	public Patient getPatient(){
+		return patient;
 	}
 
 	/**
@@ -38,8 +39,24 @@ public class Prescription{
 		return meds;
 	}
 
+	/**
+	* Adds medicine to the prescription
+	* If this medicine is already on the list, 
+	* it will not be added again
+	* Only doctors can use this action
+	* @param medicineName medicine name as a string
+	*/
+	protected boolean addMedicine(String medicineName){
+		if( meds.contains( medicineName ) ){
+			System.out.println("WARNING: Cannot add. The medicine already exists.");
+			return false;
+		}
+		meds.add(medicineName);
+		return true;
+	}
+
 	@Override
 	public String toString(){
-		return "The Prescription: " + meds; 
+		return "The patient's information: " + patient + "\nThe Prescription: " + meds;
 	}
 }
