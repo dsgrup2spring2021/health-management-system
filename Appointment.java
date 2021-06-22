@@ -108,22 +108,26 @@ public class Appointment {
     public int compareAppointmentbyHour(Appointment appointment2){
         // Comparing two appointment by their Date data
         // Returns 0 if equal or interval in hours
-        long temp =( (appday.getTime() - appointment2.getDate().getTime())
-                / (1000 * 60 * 60 ) );
+    	//long temp =( (appday.getTime() - appointment2.getDate().getTime())
+        //        / (1000 * 60 * 60 ) );
         //return temp.intValue();
         //?????????????????????????????????????????????
-        return 0;
+    	
+        if(appday.getTime()==appointment2.getDate().getTime())
+            return 0;
+    	return 1;
     }
 
     public int compareAppointmentbyDay(Appointment appointment2){
         // Comparing two appointment by their Date data
         // Returns 0 if equal or interval in date
-        long temp =( (appday.getTime() - appointment2.getDate().getTime())
-                / (1000 * 60 * 60 * 24) );
+        //long temp =( (appday.getTime() - appointment2.getDate().getTime())
+        //        / (1000 * 60 * 60 * 24) );
         //return temp.intValue();
         //?????????????????????????????????????????????
-        return 0;
+        if(appointment2.getDate().compareTo(appday)==0)
+    		return 0;
+        return 1;
     }
-
-
+    
 }
