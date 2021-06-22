@@ -9,6 +9,8 @@ public class Patient extends User{
     private int weight;
     private int height;
     private String bloodType;
+    private Doctor doc;
+    private Appointment myApp;
 
     public Patient(int age, int weight, int height, String bloodType) {
         this.age = age;
@@ -35,13 +37,22 @@ public class Patient extends User{
 
 
 
-    public void makeAppointment(Appointment appointment) { }
+    public void makeAppointment(Appointment appointment) {
+    	myApp=new Appointment();
+    }
 
-    public boolean chooseDoctor(Doctor doctor) { return true; }
+    public boolean chooseDoctor(Doctor doctor) { 
+    	this.doc=doctor;
+    	return true; 
+    }
 
-    public void showFreeTime(Doctor doctor) { }
+    public void showFreeTime(Doctor doctor) {
+    	doctor.showFreeTime();
+    }
 
-    public void enterInformations(){ }
+    public void enterInformations(){
+    	//scanner kullanmayacaksak buranın pek bi anlamı kalmadı
+    }
 
     public boolean appointmentHistory() {
         return false;
