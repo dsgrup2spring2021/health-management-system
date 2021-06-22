@@ -8,6 +8,8 @@ public class AVLTree < E extends Comparable < E >> extends BinarySearchTreeWithR
   // Insert nested class AVLNode<E> here.
 
   // Data Fields
+  private int size = 0;
+
   /** Flag to indicate that height of tree has increased. */
   private boolean increase;
 
@@ -56,6 +58,7 @@ public class AVLTree < E extends Comparable < E >> extends BinarySearchTreeWithR
   public boolean add(E item) {
     increase = false;
     root = add( (AVLNode < E > ) root, item);
+    if(addReturn) size++;
     return addReturn;
   }
 
@@ -124,6 +127,7 @@ public class AVLTree < E extends Comparable < E >> extends BinarySearchTreeWithR
   public E delete(E item) {
     decrease = false;
     root = delete( (AVLNode < E > ) root, item);
+    if(deleteReturn != null) size--;
     return deleteReturn;
   }
 
@@ -520,4 +524,7 @@ public class AVLTree < E extends Comparable < E >> extends BinarySearchTreeWithR
     }
   }
 
+  public int size(){
+    return size;
+  }
 }

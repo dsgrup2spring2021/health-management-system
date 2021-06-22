@@ -1,22 +1,13 @@
 public class Patient extends User{
-    /**
-     *
-     * @author Mustafa Furkan Ergin
-     *
-     */
-
     private int age;
     private int weight;
     private int height;
     private String bloodType;
-    private Doctor doc;
-    private Appointment myApp;
-
-    public Patient(int age, int weight, int height, String bloodType) {
-        this.age = age;
-        this.weight = weight;
-        this.height = height;
-        this.bloodType = bloodType;
+    private Doctor appointments;
+    //geçmiş reçeteler
+    //hastalıklar
+    public Patient(PersonalClass data, Hospital hospital){
+        super(data, hospital);
     }
 
     public int getAge() { return age; }
@@ -38,20 +29,18 @@ public class Patient extends User{
 
 
     public void makeAppointment(Appointment appointment) {
-    	myApp=new Appointment();
+        appointment=new Appointment();
     }
 
-    public boolean chooseDoctor(Doctor doctor) { 
-    	this.doc=doctor;
-    	return true; 
-    }
+    public boolean chooseDoctor(Doctor doctor) { return true; }
 
     public void showFreeTime(Doctor doctor) {
-    	doctor.showFreeTime();
     }
 
     public void enterInformations(){
-    	//scanner kullanmayacaksak buranın pek bi anlamı kalmadı
+        /*
+        Scanner yok parametre yok nasıl kullanalım bilemedim :frowning:
+        */
     }
 
     public boolean appointmentHistory() {
@@ -60,14 +49,18 @@ public class Patient extends User{
 
     //public void showTestResults(){ }
 
-    /**
-    * sees a specific user's suggestions
-    * @param user the user(doctor or pharmacist)
-    */
+    /*
+     * sees a specific user's suggestions
+     * @param user the user(doctor or pharmacist)
+     */
     public void showSuggestions(User user){
         if(user instanceof Doctor || user instanceof Pharmacist)
             System.out.println(getHospital().getRelatedUsers().print(user));
         else
             throw new IllegalArgumentException();
+    }
+
+    public void menu(){
+        System.out.println("\n Welcome Patient " + this.getPersonalData().getName() + " " +this.getPersonalData().getSurname());
     }
 }

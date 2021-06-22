@@ -8,9 +8,10 @@ import java.util.Date;
 public class Admin extends User{
 	private Hospital hospital;
 	private PersonalClass adminData;
-	public Admin(PersonalClass data,Hospital hospital) {
-		this.hospital=hospital;
-		this.adminData=data;
+	public Admin(PersonalClass data, Hospital hospital) {
+		super(data, hospital);
+		this.hospital = hospital;
+		this.adminData = data;
 	}
 	/**
 	 * Adds given doctor to the system.
@@ -18,7 +19,7 @@ public class Admin extends User{
 	 * @return Always True
 	 */
 	public boolean addDoctor(Doctor doctor) {
-		return hospital.getDoctors().add(doctor);
+		return hospital.getAllUsers().add(doctor) && hospital.getDoctors().add(doctor);
 	}
 	/**
 	 * Adds given patient to the system.
@@ -26,10 +27,11 @@ public class Admin extends User{
 	 * @return
 	 */
 	public boolean addPatient(Patient patient) {
-		return hospital.getPatients().add(patient);
+		return hospital.getAllUsers().add(patient) && hospital.getPatients().add(patient);
 	}
 	
 	public boolean addPharmacist(Pharmacist pharmacist) {
+		hospital.getAllUsers().add(pharmacist);
 		hospital.getPharmacists().add(pharmacist);
 		return true;
 	}
@@ -40,6 +42,7 @@ public class Admin extends User{
 	}
 	
 	public boolean addReceptionist(Receptionist receptionist) {
+		hospital.getAllUsers().add(receptionist);
 		hospital.getReceptionists().add(receptionist);
 		return true;
 	}
@@ -50,15 +53,17 @@ public class Admin extends User{
 	}
 	
 	public boolean removeDoctor(Doctor doctor) {
-		return hospital.getDoctors().remove(doctor);
+		return hospital.getAllUsers().remove(doctor) && hospital.getDoctors().remove(doctor);
 	}
 	
 	public boolean removePatient(Patient patient) {
-		return hospital.getPatients().remove(patient);
+
+		return hospital.getAllUsers().remove(patient) && hospital.getPatients().remove(patient);
 	}
 	
 	public boolean removePharmacist(Pharmacist pharmacist) {
-		return hospital.getPharmacists().remove(pharmacist);
+
+		return hospital.getAllUsers().remove(pharmacist) && hospital.getPharmacists().remove(pharmacist);
 	}
 	
 	public boolean removePrescription(Prescription prescription) {
@@ -66,7 +71,7 @@ public class Admin extends User{
 	}
 	
 	public boolean removeReceptionist(Receptionist receptionist) {
-		return hospital.getReceptionists().remove(receptionist);
+		return hospital.getAllUsers().remove(receptionist) && hospital.getReceptionists().remove(receptionist);
 	}
 
 	public boolean removeAppointment(Appointment appointment) {
@@ -115,8 +120,6 @@ public class Admin extends User{
 	public void showFreeTime(Doctor doctor) {
 		if (doctor.getAppointmens().size()==0) 
 			System.out.println("This doctor does not have any free time!");
-		//for (int i = 0; i < doctor.getAppointmens().size(); i++) 
-			//System.out.println(doctor.getAppointmens().get(i));
 		for(Appointment itr: doctor.getAppointmens()){
 			System.out.println(itr);
 		}
@@ -131,5 +134,9 @@ public class Admin extends User{
 	@Override
 	public String toString() {
 		return String.format("\nName: %s\nSurname: %s\nMail: %s\nUser ID: %d\n",adminData.getName(),adminData.getSurname(),adminData.getMail(),adminData.getId());
+	}
+
+	public void menu(){
+		System.out.println("\n Welcome Admin ");
 	}
 }

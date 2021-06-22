@@ -3,72 +3,13 @@
  * @author Ozan Argit Onceken
  */
 
-import java.util.Scanner;
-
 public abstract class User implements UserInterface, Comparable<User>{
 	private PersonalClass person;
 	private Hospital hospital;
 
-	public User() {
-	}
-
-
 	User(PersonalClass person, Hospital hospital){
 		this.person = person;
 		this.hospital = hospital;
-	}
-
-
-	/**
-	 * @return					returns true if login succesfully happened
-	 */
-	public boolean login(BinarySearchTree<User> users) {
-	/*
-		person=new PersonalClass(true);//sets a temporary person
-		Scanner scan=new Scanner(System.in);
-		System.out.println("Enter mail:");
-		person.setMail(scan.nextLine());
-
-		System.out.println("Enter password:");
-		person.setMail(scan.nextLine());
-
-		scan.close();
-//		if(users.find(person)==null)
-		return false;
-//		else
-//			return true;
-	*/
-		return false;
-	}
-	/**
-	 * method for login(mail and password sent from driver)
-	 * @param mail				mail for set person's mail
-	 * @param password			password for person's password
-	 * @return					returns true if login succesfully happened
-	 */
-	public boolean login(BinarySearchTree<User> users,String mail,String password) {
-		person.setMail(mail);
-		person.setPassword(password);
-		//	if(users.find(person)==null)
-		return false;
-		//	else
-		//		return true;
-	}
-	/**
-	 *	method for register for first time
-	 * ???????????????????????????????????????????????????????????
-	 */
-	public void register() {
-		//person=new PersonalClass(null,null);
-	}
-
-	/**
-	 * @param o 			other data for compare
-	 * @return				returns 0 if their mail and password are same
-	 */
-	@Override
-	public int compareTo(User o) {
-		return person.compareTo(o.getPersonalData());
 	}
 
 	/**
@@ -85,13 +26,6 @@ public abstract class User implements UserInterface, Comparable<User>{
 			person.edit();
 		}
 		*/
-	}
-	/**
-	 * this method takes a doctor and shows its free time
-	 * @param doctor		a doctor for show its free time
-	 */
-	public void showFreeTime(Doctor doctor){
-		doctor.showFreeTime();
 	}
 
 	/**
@@ -133,6 +67,15 @@ public abstract class User implements UserInterface, Comparable<User>{
 	 */
 	public void setHospital(Hospital hospital) {
 		this.hospital = hospital;
+	}
+
+	/**
+	 * @param o 			other data for compare
+	 * @return				returns 0 if their mail and password are same
+	 */
+	@Override
+	public int compareTo(User o) {
+		return person.compareTo(o.getPersonalData());
 	}
 
 	@Override

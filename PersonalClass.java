@@ -123,12 +123,15 @@ public class PersonalClass{
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
-	public int compareTo(PersonalClass o) {
 
-		if(o.getMail().equals(this.getMail()))
+	public int compareTo(PersonalClass o) {
+	/*
+		if(o.getMail().equals(this.getMail())){
 			if(o.getPassword().equals(this.getPassword()))
 				return 0;
-		return -1;
+		}
+	*/
+		return o.getMail().compareTo(this.getMail());
 	}
 
 

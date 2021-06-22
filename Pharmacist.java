@@ -1,14 +1,7 @@
-/**
- *
- * @author Omer F. Akduman
- * Date: 9.6.21
- *
- */
-
-
 import java.util.ArrayList;
 
 public class Pharmacist extends User{
+	//kendi ilaç stoğu olsun
 
 	public Pharmacist(PersonalClass person, Hospital hospital){
 		super(person, hospital);
@@ -51,6 +44,7 @@ public class Pharmacist extends User{
     * sees own suggestions
     */
 	public void showSuggestions(){
+		System.out.println("Your suggetions:");
 		System.out.print(getHospital().getRelatedUsers().print(this));
 	}
 
@@ -59,5 +53,9 @@ public class Pharmacist extends User{
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Pharmacist | " + super.toString());
 		return stringBuilder.toString();
+	}
+
+	public void menu(){
+		System.out.println("\n Welcome Pharmacist " + this.getPersonalData().getName() + " " + this.getPersonalData().getSurname());
 	}
 }

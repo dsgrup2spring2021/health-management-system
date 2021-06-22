@@ -4,9 +4,6 @@ import java.util.ArrayList;
 * @author Emine Sultan Savran
 */
 public class Receptionist extends User{
-	
-	//Data fields
-
 
 	//Methods
 	/**
@@ -50,12 +47,6 @@ public class Receptionist extends User{
 		return true;
 	}
 
-	public boolean requestFreeTime(String time){
-		/*Free time: Personnel can request time off for specific dates.*/
-		/*time için type değişebilir*/
-		return true;
-	}
-
 	public boolean isDoctorAvailable(Doctor doctor, Appointment appointment){
 		/*Doktorun bu appointment zamanında başka bir appointmentı
 		varsa -> false
@@ -66,5 +57,9 @@ public class Receptionist extends User{
 	public boolean showDoctorsTimeSlot(Doctor doctor){
 		/*Doktorun boş zamanı yoksa->false*/
 		return true;
+	}
+
+	public void menu(){
+		System.out.println("\n Welcome Receptionist " + this.getPersonalData().getName() + " " + this.getPersonalData().getSurname());
 	}
 }
