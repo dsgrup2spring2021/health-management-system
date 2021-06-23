@@ -1,5 +1,5 @@
 import java.util.Date;
-//çok ufak değişiklikler yaptım boş zamanları belirtmek için yeni bi constructor oluşturdum (yeni constructorda da free time ına free değil yazıyo çünkü sonuçta adamın işi var ...)
+
 public class Appointment {
     private Date appday;
     //note'u kaldÄ±rmak istiyoruz
