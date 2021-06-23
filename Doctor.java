@@ -150,13 +150,32 @@ public class Doctor extends User{
 		}while(!choice.equals("0"));
 	}
 
+	public void requestTime() {
+		Appointment freeTime=new Appointment(new Date(),"My kid has exam");
+		Iterator iter = appointments.iterator();
+		boolean isOk=true;
+		while(iter.hasNext()) {
+			Appointment temp=new Appointment();
+			temp=(Appointment) iter.next();
+			if(temp.compareAppointmentbyDay(freeTime)==0)
+				if(temp.compareAppointmentbyHour(freeTime)==0) {
+					System.out.println("That time was already fulled.");
+					System.out.println("Please request another time");
+					isOk=false;
+					break;
+				}
+		}
+		if(isOk)
+			appointments.add(freeTime);
+		return;
+	}
 	private void viewApp_Pat(){
-		Iterator<Appointment> iter = new this.appointments.iterator();
+		Iterator<Appointment> iter = this.appointments.iterator();
 		Appointment temp;
 		while(iter.hasNext()){
 			temp = iter.next();
-			System.out.println("\nDoctor: " + temp.getDoctor().getName());
-			System.out.println("Patient: " + temp.getPatient().getName());
+			System.out.println("\nDoctor: " + temp.getDoctor().getPersonalData().getName());
+			System.out.println("Patient: " + temp.getPatient().getPersonalData().getName());
 			System.out.println("Appointment time: " + temp.getDate());
 		}
 	}
