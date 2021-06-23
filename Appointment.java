@@ -4,21 +4,29 @@ public class Appointment {
     private Date appday;
     //note'u kaldÄ±rmak istiyoruz
     private String note;
-    private Boolean awake=true;
     private Doctor relatedDoctor;
     private Patient attachedPatient;
-
+    private boolean awake;
     public Appointment(){
         appday = null;
         note = null;
         relatedDoctor = null;
         attachedPatient = null;
+        awake=true;
+    }
+    public Appointment( Date input_DATE, String input_NOTE){
+        // Default Constructor without doctor data
+        attachedPatient = null;
+        appday = input_DATE;
+        note = input_NOTE;
+        awake=false;//false because doctor is busy anyway
     }
     public Appointment(Patient input_PATIENT,  Date input_DATE, String input_NOTE){
         // Default Constructor without doctor data
         attachedPatient = input_PATIENT;
         appday = input_DATE;
         note = input_NOTE;
+        awake=false;
     }
     public Appointment(Doctor input_DOCTOR, Patient input_PATIENT,  Date input_DATE, String input_NOTE){
         // Default Constructor with date datatype
@@ -26,6 +34,7 @@ public class Appointment {
         attachedPatient = input_PATIENT;
         appday = input_DATE;
         note = input_NOTE;
+        awake=false;
     }
 
     public Appointment(Doctor input_DOCTOR, Patient input_PATIENT, String input_NOTE, int year, int month, int day, int hour, int minute){
@@ -34,6 +43,7 @@ public class Appointment {
         attachedPatient = input_PATIENT;
         appday = new Date(year,month,day,hour,minute);
         note = input_NOTE;
+        awake=false;
     }
 
     public Boolean isAwake(){
@@ -43,7 +53,7 @@ public class Appointment {
 
     public void checkout(){
         // Method to access awake data
-        awake = false;
+    	awake = false;
     }
 
     public String getDate(){
