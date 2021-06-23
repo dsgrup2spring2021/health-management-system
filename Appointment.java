@@ -4,29 +4,21 @@ public class Appointment {
     private Date appday;
     //note'u kaldÄ±rmak istiyoruz
     private String note;
+    private Boolean awake=true;
     private Doctor relatedDoctor;
     private Patient attachedPatient;
-    private boolean isFree;
+
     public Appointment(){
         appday = null;
         note = null;
         relatedDoctor = null;
         attachedPatient = null;
-        isFree=true;
-    }
-    public Appointment( Date input_DATE, String input_NOTE){
-        // Default Constructor without doctor data
-        attachedPatient = null;
-        appday = input_DATE;
-        note = input_NOTE;
-        isFree=false;//false because doctor is busy anyway
     }
     public Appointment(Patient input_PATIENT,  Date input_DATE, String input_NOTE){
         // Default Constructor without doctor data
         attachedPatient = input_PATIENT;
         appday = input_DATE;
         note = input_NOTE;
-        isFree=false;
     }
     public Appointment(Doctor input_DOCTOR, Patient input_PATIENT,  Date input_DATE, String input_NOTE){
         // Default Constructor with date datatype
@@ -34,7 +26,6 @@ public class Appointment {
         attachedPatient = input_PATIENT;
         appday = input_DATE;
         note = input_NOTE;
-        isFree=false;
     }
 
     public Appointment(Doctor input_DOCTOR, Patient input_PATIENT, String input_NOTE, int year, int month, int day, int hour, int minute){
@@ -43,17 +34,16 @@ public class Appointment {
         attachedPatient = input_PATIENT;
         appday = new Date(year,month,day,hour,minute);
         note = input_NOTE;
-        isFree=false;
     }
 
-    public Boolean isEmpty(){
+    public Boolean isAwake(){
         // Method that will return if appointment is checked out by Patient or by Doctor or not
-        return isFree;
+        return awake;
     }
 
     public void checkout(){
         // Method to access awake data
-        isFree = false;
+        awake = false;
     }
 
     public String getDate(){
@@ -103,7 +93,7 @@ public class Appointment {
 
     public void setAwake(Boolean input_B) {
         // Setting a status to appointment
-        this.isFree = input_B;
+        this.awake = input_B;
     }
 
     public void setNote(String description) {
