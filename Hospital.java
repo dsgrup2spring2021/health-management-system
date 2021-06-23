@@ -10,7 +10,7 @@ public class Hospital {
 	private String hospitalName;
 	private Admin admin;
 	private AVLTree<User> allUsers;//AVL
-	private ArrayList<Doctor> doctors;//skiplist
+	private ConcurrentSkipListSet<Doctor> doctors;//skiplist
 	private ArrayList<Patient> patients;//Treeset yapcam
 	private ArrayList<Receptionist> receptionists;
 	private ArrayList<Pharmacist> pharmacists;
@@ -189,5 +189,37 @@ public class Hospital {
 		}
 		else
 			return findUser(root.getRightSubtree(), mail, password);
+	}
+	/**
+	 * Function to searching doctors by speciality
+	 * This function can be used by primarly patient class
+	 * @param specialityInput is the string input
+	 * @return temp or null if not finded
+	 * */
+	public Doctor findDoctorBySpeciality(String specialityInput){
+		Iterator<Doctor> iter = new doctors.descendingIterator();
+		Doctor temp = new Doctor();
+		while (iter.hasNext()){
+			temp = iter.next();
+			if(temp.getSpeciality().contains(input)&&temp.isAvailable())
+				return temp;
+		}
+		return null;
+	}
+	/**
+	 * Function to searching doctors by name
+	 * This function can be used by primarly patient class
+	 * @param nameInput is the string input
+	 * @return temp or null if not finded
+	 * */
+	public Doctor findDoctorByName(String nameInput){
+		Iterator<Doctor> iter = new doctors.descendingIterator();
+		Doctor temp = new Doctor();
+		while (iter.hasNext()){
+			temp = iter.next();
+			if(temp.getName().contains(input)&&temp.isAvailable())
+				return temp;
+		}
+		return null;
 	}
 }

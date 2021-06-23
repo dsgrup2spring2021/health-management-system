@@ -46,9 +46,9 @@ public class Appointment {
         awake = false;
     }
 
-    public Date getDate(){
+    public String getDate(){
         // Returning appointment time
-        return appday;
+        return appday.toString();
     }
 
     public String getNote() {

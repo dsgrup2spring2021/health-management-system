@@ -7,7 +7,8 @@ public class Doctor extends User{
 	private String specialty;
 	/**Stores free and appointed times*/
 	private PriorityQueue<Appointment> appointments;
-
+	/**False when all the available appointment times are full*/
+	private boolean available = true ;
 	/**Constructors*/
 	public Doctor(PersonalClass person, Hospital hospital, String specialty) {
 		super(person, hospital);
@@ -48,7 +49,10 @@ public class Doctor extends User{
 			x.add(appointments.poll());
 		}
 	}
-
+	/**Function to return speciality*/
+	public String getSpecialty() {
+		return specialty;
+	}
 
 	public PriorityQueue<Appointment> getAppointmens(){
 		return appointments;
@@ -63,6 +67,13 @@ public class Doctor extends User{
 			getHospital().getRelatedUsers().insert(new Edge<User>(this, user));
 		else
 			throw new IllegalArgumentException();
+	}
+
+	/** Returns true if available appointment time exist
+	 * false if appointment times are full
+	 * */
+	public boolean isAvailable() {
+		return available;
 	}
 
 	/**
@@ -137,5 +148,16 @@ public class Doctor extends User{
 			}
 
 		}while(!choice.equals("0"));
+	}
+
+	private void viewApp_Pat(){
+		Iterator<Appointment> iter = new this.appointments.iterator();
+		Appointment temp;
+		while(iter.hasNext()){
+			temp = iter.next();
+			System.out.println("\nDoctor: " + temp.getDoctor().getName());
+			System.out.println("Patient: " + temp.getPatient().getName());
+			System.out.println("Appointment time: " + temp.getDate());
+		}
 	}
 }
