@@ -19,6 +19,15 @@ public class Patient extends User{
         prescriptions = new Stack<>();
         diseases = new ArrayList<>(10);
     }
+    
+    
+    public Patient(int age, int weight, int height, String bloodType) {
+        this.age = age;
+        this.weight = weight;
+        this.height = height;
+        this.bloodType = bloodType;
+    }
+
 
     @Override
     public String toString() {
