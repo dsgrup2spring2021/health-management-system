@@ -113,7 +113,7 @@ public class Appointment implements Comparable<Appointment>{
 
     public String printForDoctor(){
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Patient: " + this.getPatient() + "\n Time: " + this.getDate());
+        stringBuilder.append("Patient: " + this.getPatient().print() + "\n Time: " + this.getDate());
         return stringBuilder.toString();
     }
 

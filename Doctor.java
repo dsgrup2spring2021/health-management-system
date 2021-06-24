@@ -86,7 +86,7 @@ public class Doctor extends User{
 			return false;
 		}
 		for(Appointment appointment: activeAppointments){
-			System.out.println(" -> " + appointment.getPatient());
+			System.out.print(" -> " + appointment.getPatient().print());
 		}
 		return true;
 	}
@@ -217,6 +217,7 @@ public class Doctor extends User{
 						if (!this.viewPatientList()) {
 							break;
 						}
+						System.out.println();
 						System.out.print("Please enter the patient ID: ");
 						String patientID = scanner.nextLine();
 						Patient patient = this.searchPatient(Integer.parseInt(patientID));
@@ -279,9 +280,10 @@ public class Doctor extends User{
 						if(!this.viewPatientList()){
 							break;
 						}
+						System.out.println();
 						System.out.print("Please enter the patient ID: ");
-						int patientID = scanner.nextInt();
-						Patient patient = this.searchPatient(patientID);
+						String patientID = scanner.nextLine();
+						Patient patient = this.searchPatient(Integer.parseInt(patientID));
 						if(patient != null){
 							this.viewPatientHistory(patient);
 							exit = false;

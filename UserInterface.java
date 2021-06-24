@@ -1,6 +1,7 @@
 public interface UserInterface {
     /**
      * To edit the user's profile
+	 * @param user
      * @param mail new mail
      * @param name new name
      * @param surname new surname

@@ -50,9 +50,13 @@ public class Patient extends User{
         return prescriptions;
     }
 
+    public String print(){
+        return super.toString();
+    }
+
     public void showHistory(){
         System.out.println(" * Personal Data * ");
-        System.out.println(this);
+        System.out.println(this.print());
         System.out.println(" -> Age: " + age);
         System.out.println(" -> Weight: " + weight);
         System.out.println(" -> Height: " + height);
