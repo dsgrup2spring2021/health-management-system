@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  * Stores all information about hospital and users.
@@ -9,9 +10,9 @@ public class Hospital {
 	
 	private String hospitalName;
 	private Admin admin;
-	private AVLTree<User> allUsers;//AVL
-	private ConcurrentSkipListSet<Doctor> doctors;//skiplist
-	private ArrayList<Patient> patients;//Treeset yapcam
+	private AVLTree<User> allUsers;
+	private ConcurrentSkipListSet<Doctor> doctors;
+	private TreeSet<Patient> patients;
 	private ArrayList<Receptionist> receptionists;
 	private ArrayList<Pharmacist> pharmacists;
 	private ArrayList<Prescription> prescriptions; 
@@ -26,8 +27,8 @@ public class Hospital {
 	public Hospital(String name) {
 		this.hospitalName=name;
 		admin = new Admin(new PersonalClass("Admin", "Default", "admin@gtu.edu.tr", "1234"), this);
-		doctors = new ArrayList<>();
-		patients = new ArrayList<>();
+		doctors = new ConcurrentSkipListSet<>();
+		patients = new TreeSet<>();
 		receptionists = new ArrayList<>();
 		pharmacists = new ArrayList<>();
 		prescriptions = new ArrayList<>();
@@ -61,14 +62,14 @@ public class Hospital {
 	 * Doctors getter.
 	 * @return All doctors in the hospital.
 	 */
-	public ArrayList<Doctor> getDoctors(){
+	public ConcurrentSkipListSet<Doctor> getDoctors(){
 		return this.doctors;
 	}
 	/**
 	 * Patients getter.
 	 * @return All patients in the hospital.
 	 */
-	public ArrayList<Patient> getPatients(){
+	public TreeSet<Patient> getPatients(){
 		return this.patients;
 	}
 	/**
@@ -155,7 +156,6 @@ public class Hospital {
 	 * 			otherwise false
 	 */
 	public boolean login(String mail, String password){
-		//System.out.println("see all: " + getAllUsers());
 		if(this.getAllUsers().size()==0){
 			System.out.println("WARNING: Empty hospital.");
 			return false;
@@ -197,11 +197,11 @@ public class Hospital {
 	 * @return temp or null if not finded
 	 * */
 	public Doctor findDoctorBySpeciality(String specialityInput){
-		Iterator<Doctor> iter = new doctors.descendingIterator();
-		Doctor temp = new Doctor();
+		Iterator<Doctor> iter = doctors.descendingIterator();
+		Doctor temp = new Doctor(new PersonalClass(null, null), this, null);
 		while (iter.hasNext()){
 			temp = iter.next();
-			if(temp.getSpeciality().contains(input)&&temp.isAvailable())
+			if(temp.getSpecialty().contains(specialityInput)&&temp.isAvailable())
 				return temp;
 		}
 		return null;
@@ -213,13 +213,68 @@ public class Hospital {
 	 * @return temp or null if not finded
 	 * */
 	public Doctor findDoctorByName(String nameInput){
-		Iterator<Doctor> iter = new doctors.descendingIterator();
-		Doctor temp = new Doctor();
+		Iterator<Doctor> iter = doctors.descendingIterator();
+		Doctor temp = new Doctor(new PersonalClass(null, null), this, null);
 		while (iter.hasNext()){
 			temp = iter.next();
-			if(temp.getName().contains(input)&&temp.isAvailable())
+			if(temp.getPersonalData().getName().contains(nameInput)&&temp.isAvailable())
 				return temp;
 		}
 		return null;
+	}
+
+	public void createDefaultData(){
+		/*Create hospital's datas*/
+		/*Create doctors*/
+		PersonalClass p1 = new PersonalClass("ddedededeeeeeeeee","dedede","e","s");
+		PersonalClass p2 = new PersonalClass("emine","sultan","s","dsds");
+		PersonalClass p3 = new PersonalClass("minnoş","savran","dssd","jfdkljfld");
+		Doctor doctor1 = new Doctor(p1,this,"kalp");
+		Doctor doctor2 = new Doctor(p2,this,"kalp");
+		Doctor doctor3 = new Doctor(p3,this,"kalp");
+		admin.addDoctor(doctor1);
+		admin.addDoctor(doctor2);
+		admin.addDoctor(doctor3);
+		/*Create patients*/
+		PersonalClass p4 = new PersonalClass("a","a","a","a");
+		PersonalClass p5 = new PersonalClass("b","b","b","b");
+		PersonalClass p6 = new PersonalClass("c","c","c","c");
+		Patient patient1 = new Patient(p4,this);
+		Patient patient2 = new Patient(p5,this);
+		Patient patient3 = new Patient(p6,this);
+		admin.addPatient(patient1);
+		admin.addPatient(patient2);
+		admin.addPatient(patient3);
+
+		Prescription pres1 = new Prescription(doctor1,patient1);
+        pres1.addMedicine(new Medicine("Nurofen", 15, 1));
+        pres1.addMedicine(new Medicine("Arveles",8,2));
+        pres1.addMedicine(new Medicine("Parol", 5, 1));
+        pres1.addMedicine(new Medicine("Deloday",21,1));
+		patient1.getPrescriptions().add(pres1);
+
+		/*Create pharmacists*/
+		PersonalClass p7 = new PersonalClass("a","a","d","a");
+		PersonalClass p8 = new PersonalClass("b","b","e","b");
+		PersonalClass p9 = new PersonalClass("c","c","f","c");
+		Pharmacist pharmacist1 = new Pharmacist(p7,"YASAM ECZANESI",this);
+		Pharmacist pharmacist2 = new Pharmacist(p8,"MERKEZ ECZANESI",this);
+		Pharmacist pharmacist3 = new Pharmacist(p9,"YILDIZ ECZANESI",this);
+		admin.addPharmacist(pharmacist1);
+		admin.addPharmacist(pharmacist2);
+		admin.addPharmacist(pharmacist3);
+		/*Create receptionist*/
+		PersonalClass p10 = new PersonalClass("a","a","g","a");
+		PersonalClass p11 = new PersonalClass("b","b","l","b");
+		PersonalClass p12 = new PersonalClass("c","c","m","c");
+		Receptionist receptionist1 = new Receptionist(p10,this);
+		Receptionist receptionist2 = new Receptionist(p11,this);
+		Receptionist receptionist3 = new Receptionist(p12,this);
+		admin.addReceptionist(receptionist1);
+		admin.addReceptionist(receptionist2);
+		admin.addReceptionist(receptionist3);
+		/*Create appointments*/
+		Appointment appointment1 = new Appointment(doctor1, patient1, new Date(3000,1,1,22,1));
+		doctor1.addAppointment(appointment1);
 	}
 }

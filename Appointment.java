@@ -1,49 +1,34 @@
 import java.util.Date;
 
-public class Appointment {
+public class Appointment implements Comparable<Appointment>{
     private Date appday;
-    //note'u kaldÄ±rmak istiyoruz
-    private String note;
+    private Boolean awake = true;
     private Doctor relatedDoctor;
     private Patient attachedPatient;
-    private boolean awake;
+
     public Appointment(){
         appday = null;
-        note = null;
         relatedDoctor = null;
         attachedPatient = null;
-        awake=true;
+        awake = true;
     }
-    public Appointment( Date input_DATE, String input_NOTE){
-        // Default Constructor without doctor data
-        attachedPatient = null;
-        appday = input_DATE;
-        note = input_NOTE;
-        awake=false;//false because doctor is busy anyway
-    }
-    public Appointment(Patient input_PATIENT,  Date input_DATE, String input_NOTE){
+    public Appointment(Patient input_PATIENT,  Date input_DATE){
         // Default Constructor without doctor data
         attachedPatient = input_PATIENT;
         appday = input_DATE;
-        note = input_NOTE;
-        awake=false;
     }
-    public Appointment(Doctor input_DOCTOR, Patient input_PATIENT,  Date input_DATE, String input_NOTE){
+    public Appointment(Doctor input_DOCTOR, Patient input_PATIENT,  Date input_DATE){
         // Default Constructor with date datatype
         relatedDoctor = input_DOCTOR;
         attachedPatient = input_PATIENT;
         appday = input_DATE;
-        note = input_NOTE;
-        awake=false;
     }
 
-    public Appointment(Doctor input_DOCTOR, Patient input_PATIENT, String input_NOTE, int year, int month, int day, int hour, int minute){
+    public Appointment(Doctor input_DOCTOR, Patient input_PATIENT, int year, int month, int day, int hour, int minute){
         //  Default constructor with integer inputs
         relatedDoctor = input_DOCTOR;
         attachedPatient = input_PATIENT;
         appday = new Date(year,month,day,hour,minute);
-        note = input_NOTE;
-        awake=false;
     }
 
     public Boolean isAwake(){
@@ -53,17 +38,12 @@ public class Appointment {
 
     public void checkout(){
         // Method to access awake data
-    	awake = false;
+        awake = false;
     }
 
     public String getDate(){
         // Returning appointment time
         return appday.toString();
-    }
-
-    public String getNote() {
-        // Returning notes
-        return note;
     }
 
     public Doctor getDoctor(){
@@ -106,11 +86,6 @@ public class Appointment {
         this.awake = input_B;
     }
 
-    public void setNote(String description) {
-        // Setting a description or notes to appointment
-        this.note = description;
-    }
-
     public void setRelatedDoctor(Doctor relatedDoctor) {
         // Setting a related doctor to appointment
         this.relatedDoctor = relatedDoctor;
@@ -136,5 +111,19 @@ public class Appointment {
         return 0;
     }
 
+    public String printForDoctor(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Patient: " + this.getPatient() + "\n Time: " + this.getDate());
+        return stringBuilder.toString();
+    }
 
+    @Override
+    public String toString(){
+        return "Doctor: " + this.getDoctor() + " Patient: " + this.getPatient() + " Time: " + this.getDate();
+    }
+
+    @Override
+    public int compareTo(Appointment o) {
+        return this.getDate().compareTo(o.getDate());
+    }
 }

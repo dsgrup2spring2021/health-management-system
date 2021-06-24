@@ -6,7 +6,7 @@ import java.util.Date;
  *
  */
 public class Admin extends User{
-	private Hospital hospital;
+	private final Hospital hospital;
 	private PersonalClass adminData;
 	public Admin(PersonalClass data, Hospital hospital) {
 		super(data, hospital);
@@ -83,6 +83,7 @@ public class Admin extends User{
 		user.getPersonalData().setName(name);
 		user.getPersonalData().setPassword(password);
 		user.getPersonalData().setSurname(surname);
+		System.out.println(" The profile is edited.");
 	}
 	
 	public void editAppointment(Appointment appointment,Date appday,Doctor doctor,Patient patient) {
@@ -92,14 +93,14 @@ public class Admin extends User{
 	}
 	
 	public void doctorList() {
-		for (int i = 0; i < hospital.getDoctors().size();i++) {
-			System.out.println(hospital.getDoctors().get(i));
+		for (Doctor doctor: hospital.getDoctors() ) {
+			System.out.println(doctor);
 		}
 	}
 	
 	public void patientList() {
-		for (int i = 0; i < hospital.getPatients().size();i++) {
-			System.out.println(hospital.getPatients().get(i));
+		for (Patient patient: getHospital().getPatients()) {
+			System.out.println(patient);
 		}
 	}
 	
@@ -118,9 +119,9 @@ public class Admin extends User{
 	}
 	
 	public void showFreeTime(Doctor doctor) {
-		if (doctor.getAppointmens().size()==0) 
+		if (doctor.getAppointments().size()==0)
 			System.out.println("This doctor does not have any free time!");
-		for(Appointment itr: doctor.getAppointmens()){
+		for(Appointment itr: doctor.getAppointments()){
 			System.out.println(itr);
 		}
 	}
@@ -133,7 +134,8 @@ public class Admin extends User{
 	}
 	@Override
 	public String toString() {
-		return String.format("\nName: %s\nSurname: %s\nMail: %s\nUser ID: %d\n",adminData.getName(),adminData.getSurname(),adminData.getMail(),adminData.getId());
+		return String.format("\nName: %s\nSurname: %s\nMail: %s\nUser ID: %d\n",
+				adminData.getName(),adminData.getSurname(),adminData.getMail(),adminData.getId());
 	}
 
 	public void menu(){

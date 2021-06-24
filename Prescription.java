@@ -9,6 +9,7 @@ public class Prescription{
 	private Patient patient;
 	/**to hold doctor of the prescription*/
 	private Doctor doctor;
+
 	/**to hold names of the meds*/
 	private TreeMap<Integer,Medicine> meds;
 
@@ -18,8 +19,9 @@ public class Prescription{
 	 * to create empty prescription for the patient
 	 * @param patient owner of the prescription
 	 */
-	public Prescription(Patient patient){
+	public Prescription(Doctor doctor, Patient patient){
 		this.patient = patient;
+		this.doctor=doctor;
 		meds = new TreeMap<>();
 	}
 
@@ -53,19 +55,6 @@ public class Prescription{
 		}
 		meds.put(medicine.getId(), medicine);
 		return true;
-	}
-
-	@Override
-	public String toString(){
-		Medicine[] sortedMeds = new Medicine[this.getMedicines().size()];
-		this.getMedicines().values().toArray(sortedMeds);
-		sort(sortedMeds);
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("The patient's information: " + patient + "\nThe Prescription: \n");
-		int n = sortedMeds.length;
-		for (int i = 0; i < n; ++i)
-			stringBuilder.append(sortedMeds[i]+"\n");
-		return stringBuilder.toString();
 	}
 
 	static public void sort(Medicine[] arr) {
@@ -107,9 +96,39 @@ public class Prescription{
 			Medicine swap = arr[i];
 			arr[i] = arr[largest];
 			arr[largest] = swap;
-
 			// Recursively heapify the affected sub-tree
 			heapify(arr, n, largest);
 		}
+	}
+
+	@Override
+	public String toString(){
+		Medicine[] sortedMeds = new Medicine[this.getMedicines().size()];
+		this.getMedicines().values().toArray(sortedMeds);
+		sort(sortedMeds);
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("\nThe Prescription: \n");
+		int n = sortedMeds.length;
+		for (int i = 0; i < n; ++i)
+			stringBuilder.append(sortedMeds[i]+"\n");
+		return stringBuilder.toString();
+	}
+
+	public void printDiscountedPrescribes(){
+		Medicine[] sortedMeds = new Medicine[this.getMedicines().size()];
+		this.getMedicines().values().toArray(sortedMeds);
+		sort(sortedMeds);
+		StringBuilder stringBuilder = new StringBuilder();
+		System.out.println("\nThe Prescription:");
+		int n = sortedMeds.length;
+		for (int i = 0; i < n; ++i)
+			sortedMeds[i].printDiscountedPrice();
+	}
+	public Doctor getDoctor() {
+		return this.doctor;
+	}
+
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
 	}
 }

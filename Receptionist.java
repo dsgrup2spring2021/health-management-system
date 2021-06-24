@@ -13,9 +13,6 @@ public class Receptionist extends User{
 		super(person, hospital);
 		//Create new receptionist	
 	}
-
-	public void editProfile(){	
-	}
 	
 	public boolean addPatient(Patient patient){
 		/*zaten var olan hasta tekrar eklenmek istenirse -> false*/

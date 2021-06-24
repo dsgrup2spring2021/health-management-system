@@ -135,7 +135,7 @@ public class ListGraph<E extends User> extends AbstractGraph<E> {
             return stringBuilder.toString();
         }
         for(int i=0;i<edges[source.getPersonalData().getId()].size();i++){
-            stringBuilder.append(" " + (i+1) + " - ");
+            stringBuilder.append(" -> ");
             stringBuilder.append(edges[source.getPersonalData().getId()].get(i).getDest().toString());
             stringBuilder.append("\n");
         }

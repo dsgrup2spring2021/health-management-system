@@ -9,6 +9,13 @@ public class Medicine {
     private static int staticId = 10000;
     private int id;
 
+    public Medicine(int id, String name, int quantiy){
+        this.name=name;
+        this.cost=0;
+        this.quantiy=quantiy;
+        this.id=id;
+    }
+
     public Medicine(String name, int cost, int quantiy){
         this.name=name;
         this.cost=cost;
@@ -20,6 +27,10 @@ public class Medicine {
     @Override
     public String toString() {
         return String.format("\nName: %s\nMedicine ID: %d\nCost: %d\nQuantity: %d\n",name,id,cost,quantiy);
+    }
+
+    public void printDiscountedPrice(){
+        System.out.printf("\nName: %s\nMedicine ID: %d\nCost: %d\nQuantity: %d\n",name,id,cost/2,quantiy);
     }
 
     public String getName() {
