@@ -1,4 +1,5 @@
 import java.util.Date;
+import java.util.Scanner;
 
 /**
  * 
@@ -173,7 +174,7 @@ public class Admin extends User{
 					if(scanner.hasNext())
 						height=scanner.nextInt();
 					System.out.println("Enter the patient blood type");
-					this.addPatient(new Patient(age,weight,height,scanner.nextLine()));
+					this.addPatient(new Patient(age,weight,height,scanner.nextLine(),createPersonalData(),createHospital()));
 				}
 				case "2":{
 					System.out.println("Enter the patient age weight height bloodtype");
@@ -189,7 +190,7 @@ public class Admin extends User{
 					if(scanner.hasNext())
 						height=scanner.nextInt();
 					System.out.println("Enter the patient blood type");
-					this.removePatient(new Patient(age,weight,height,scanner.nextLine()));
+					this.addPatient(new Patient(age,weight,height,scanner.nextLine(),createPersonalData(),createHospital()));
 				}
 				case "3":{
 					System.out.println("Enter the Speciality of doctor");
@@ -206,7 +207,15 @@ public class Admin extends User{
 					this.removePharmacist(new Pharmacist(createPersonalData(),createHospital()));
 				}
 				case "7":{
-					this.editProfile();
+					System.out.print("Enter new name: ");
+					String name = scanner.nextLine();
+					System.out.print("Enter new surname: ");
+					String surname = scanner.nextLine();
+					System.out.print("Enter new mail: ");
+					String mail = scanner.nextLine();
+					System.out.print("Enter new password: ");
+					String password = scanner.nextLine();
+					editProfile(this, mail, name, surname, password);
 				}
 				case "0":
 					break;
