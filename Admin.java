@@ -1,4 +1,5 @@
 import java.util.Date;
+import java.util.Scanner;
 
 /**
  * 
@@ -8,10 +9,9 @@ import java.util.Date;
 public class Admin extends User{
 	private Hospital hospital;
 	private PersonalClass adminData;
-	public Admin(PersonalClass data, Hospital hospital) {
-		super(data, hospital);
-		this.hospital = hospital;
-		this.adminData = data;
+	public Admin(PersonalClass data,Hospital hospital) {
+		this.hospital=hospital;
+		this.adminData=data;
 	}
 	/**
 	 * Adds given doctor to the system.
@@ -19,7 +19,7 @@ public class Admin extends User{
 	 * @return Always True
 	 */
 	public boolean addDoctor(Doctor doctor) {
-		return hospital.getAllUsers().add(doctor) && hospital.getDoctors().add(doctor);
+		return hospital.getDoctors().add(doctor);
 	}
 	/**
 	 * Adds given patient to the system.
@@ -27,11 +27,10 @@ public class Admin extends User{
 	 * @return
 	 */
 	public boolean addPatient(Patient patient) {
-		return hospital.getAllUsers().add(patient) && hospital.getPatients().add(patient);
+		return hospital.getPatients().add(patient);
 	}
 	
 	public boolean addPharmacist(Pharmacist pharmacist) {
-		hospital.getAllUsers().add(pharmacist);
 		hospital.getPharmacists().add(pharmacist);
 		return true;
 	}
@@ -42,7 +41,6 @@ public class Admin extends User{
 	}
 	
 	public boolean addReceptionist(Receptionist receptionist) {
-		hospital.getAllUsers().add(receptionist);
 		hospital.getReceptionists().add(receptionist);
 		return true;
 	}
@@ -53,17 +51,15 @@ public class Admin extends User{
 	}
 	
 	public boolean removeDoctor(Doctor doctor) {
-		return hospital.getAllUsers().remove(doctor) && hospital.getDoctors().remove(doctor);
+		return hospital.getDoctors().remove(doctor);
 	}
 	
 	public boolean removePatient(Patient patient) {
-
-		return hospital.getAllUsers().remove(patient) && hospital.getPatients().remove(patient);
+		return hospital.getPatients().remove(patient);
 	}
 	
 	public boolean removePharmacist(Pharmacist pharmacist) {
-
-		return hospital.getAllUsers().remove(pharmacist) && hospital.getPharmacists().remove(pharmacist);
+		return hospital.getPharmacists().remove(pharmacist);
 	}
 	
 	public boolean removePrescription(Prescription prescription) {
@@ -71,7 +67,7 @@ public class Admin extends User{
 	}
 	
 	public boolean removeReceptionist(Receptionist receptionist) {
-		return hospital.getAllUsers().remove(receptionist) && hospital.getReceptionists().remove(receptionist);
+		return hospital.getReceptionists().remove(receptionist);
 	}
 
 	public boolean removeAppointment(Appointment appointment) {
@@ -120,6 +116,8 @@ public class Admin extends User{
 	public void showFreeTime(Doctor doctor) {
 		if (doctor.getAppointmens().size()==0) 
 			System.out.println("This doctor does not have any free time!");
+		//for (int i = 0; i < doctor.getAppointmens().size(); i++) 
+			//System.out.println(doctor.getAppointmens().get(i));
 		for(Appointment itr: doctor.getAppointmens()){
 			System.out.println(itr);
 		}
@@ -135,8 +133,101 @@ public class Admin extends User{
 	public String toString() {
 		return String.format("\nName: %s\nSurname: %s\nMail: %s\nUser ID: %d\n",adminData.getName(),adminData.getSurname(),adminData.getMail(),adminData.getId());
 	}
+	
 
 	public void menu(){
-		System.out.println("\n Welcome Admin ");
+		System.out.println("\n Welcome Admin " + this.getPersonalData().getName() + " " + this.getPersonalData().getSurname());
+		
+		String choice = "";
+		Scanner scanner = new Scanner(System.in);
+		do{
+			System.out.println("\n 1 - Add patient");
+			System.out.println(" 2 - Remove patient ");
+			System.out.println(" 3 - Add doctor");
+			System.out.println(" 4 - Remove doctor");
+			System.out.println(" 5 - Add Pharmacist");
+			System.out.println(" 6 - Remove Pharmacist");
+			System.out.println(" 7 - Edit personel data");
+			System.out.println(" 0 - Log out");
+			System.out.print("Please select: ");
+			choice = scanner.nextLine();
+			switch (choice){
+				case "1":{
+					System.out.println("Enter the patient age weight height bloodtype");
+					int age=0;
+					if(scanner.hasNext())
+						age=scanner.nextInt();
+					System.out.println("Enter the patient weight");
+					int weight=0;
+					if(scanner.hasNext())
+						weight=scanner.nextInt();
+					System.out.println("Enter the patient height");
+					int height=0;
+					if(scanner.hasNext())
+						height=scanner.nextInt();
+					System.out.println("Enter the patient blood type");
+					this.addPatient(new Patient(age,weight,height,scanner.nextLine()));
+				}
+				case "2":{
+					System.out.println("Enter the patient age weight height bloodtype");
+					int age=0;
+					if(scanner.hasNext())
+						age=scanner.nextInt();
+					System.out.println("Enter the patient weight");
+					int weight = 0;
+					if(scanner.hasNext())
+						weight=scanner.nextInt();
+					System.out.println("Enter the patient height");
+					int height=0;
+					if(scanner.hasNext())
+						height=scanner.nextInt();
+					System.out.println("Enter the patient blood type");
+					this.removePatient(new Patient(age,weight,height,scanner.nextLine()));
+				}
+				case "3":{
+					System.out.println("Enter the Speciality of doctor");
+					this.addDoctor(new Doctor(createPersonalData(),createHospital(),scanner.nextLine()));
+				}
+				case "4":{
+					System.out.println("Enter the Speciality of doctor");
+					this.addDoctor(new Doctor(createPersonalData(),createHospital(),scanner.nextLine()));					
+				}
+				case "5":{
+					this.addPharmacist(new Pharmacist(createPersonalData(),createHospital()));
+				}
+				case "6":{
+					this.removePharmacist(new Pharmacist(createPersonalData(),createHospital()));
+				}
+				case "7":{
+					this.editProfile();
+				}
+				case "0":
+					break;
+				default:
+					System.out.println(" WARNING: Please enter a valid value.");
+					break;
+			}
+
+		}while(!choice.equals("0"));
 	}
+
+	private Hospital createHospital() {
+		System.out.println("Enter the hospital name");
+
+		Scanner scanner = new Scanner(System.in);
+		return new Hospital(scanner.nextLine());
+	}
+	private PersonalClass createPersonalData() {
+
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Enter the patient name");
+		String name=scanner.nextLine();
+		System.out.println("Enter the patient surname");
+		String surname=scanner.nextLine();
+		System.out.println("Enter the patient mail");
+		String mail=scanner.nextLine();
+		System.out.println("Enter the patient password");
+		return new PersonalClass(name,surname,mail,scanner.nextLine());
+	}
+	
 }
