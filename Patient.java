@@ -19,14 +19,6 @@ public class Patient extends User{
         prescriptions = new Stack<>();
         diseases = new ArrayList<>(10);
     }
-    
-    
-    public Patient(int age, int weight, int height, String bloodType) {
-        this.age = age;
-        this.weight = weight;
-        this.height = height;
-        this.bloodType = bloodType;
-    }
 
     public Patient(int age, int weight, int height, String bloodType,PersonalClass data, Hospital hospital) {
     	super(data,hospital);
@@ -42,6 +34,7 @@ public class Patient extends User{
         getPersonalData().getName(),getPersonalData().getSurname(),
         getAge(),getWeight(),getHeight(),getBloodType());
     }
+
     public int getAge() { return age; }
 
     public void setAge(int age) { this.age = age;}

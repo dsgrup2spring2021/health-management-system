@@ -28,12 +28,14 @@ public class Receptionist extends User{
 		return true;
 	}
 
-	public boolean addAppointment(Appointment appointment){
-		/*dolu olan bi tarihe eklenmek istenirse -> false*/
-		if( getHospital().getAppointments().contains(appointment) ){
-			System.out.println("WARNING: Cannot add. The appointment is full.");
-			return false;
+	public boolean addAppointment(Appointment appointment) {
+		for(Appointment appointment1: getHospital().getAppointments()){
+			if(appointment.compareTo(appointment1) == 0){
+				System.out.println("WARNING: Cannot add. The appointment is full.");
+				return false;
+			}
 		}
+		System.out.println(" The appointment is added.");
 		getHospital().getAppointments().offer(appointment);
 		return true;
 	}
@@ -56,7 +58,7 @@ public class Receptionist extends User{
 		Appointment t_appointment = null;
 		while (temp.hasNext()){
 			t_appointment=temp.next();
-			if (t_appointment.getGregorianCalendarTime()==appointment.getGregorianCalendarTime()&&t_appointment.isAwake())
+			if (t_appointment.getGregorianCalendar().equals(appointment.getGregorianCalendar())&&t_appointment.isAwake())
 				return false;
 		}
 		return true;
@@ -72,8 +74,6 @@ public class Receptionist extends User{
 	 * The menu for the Receptionist class and users
 	 * */
 	public void menu(){
-
-
 
 		System.out.println("\n Welcome Receptionist " + this.getPersonalData().getName() + " " + this.getPersonalData().getSurname());
 			String choice = "";
@@ -111,15 +111,61 @@ public class Receptionist extends User{
 						System.out.println();
 						this.viewDoctorsList();
 						break;
-					case "4":
-						System.out.print("Enter patient id': ");
-						String patientID = scanner.nextLine();
-						System.out.print("Enter doctor id': ");
-						String doctorID = scanner.nextLine();
-						GregorianCalendar time=chooseAnAppointmentTime();
-						Appointment newApp = new Appointment(searchDoctor(Integer.parseInt(doctorID)),searchPatient(Integer.parseInt(patientID)),time);
-						addAppointment(newApp);
+					case "4":{
+						boolean exit1 = true;
+						while (exit1) {
+							System.out.println();
+							System.out.println(" * Patients * ");
+							this.getHospital().getAdmin().patientList();
+							System.out.print("Please enter the ID: ");
+							String ID = scanner.nextLine();
+							Patient user1 = null;
+							try {
+								for (Patient patient : this.getHospital().getPatients()) {
+									if (patient.getPersonalData().getId() == Integer.parseInt(ID)) {
+										user1 = patient;
+										break;
+									}
+								}
+								if (user1 != null) {
+									boolean exit2 = true;
+									while (exit2) {
+										System.out.println();
+										System.out.println(" * Doctors * ");
+										this.getHospital().getAdmin().doctorList();
+										System.out.print("Please enter the ID: ");
+										ID = scanner.nextLine();
+										Doctor user2 = null;
+										try {
+											for (Doctor doctor : this.getHospital().getDoctors()) {
+												if (doctor.getPersonalData().getId() == Integer.parseInt(ID)) {
+													user2 = doctor;
+													break;
+												}
+											}
+											if (user2 != null) {
+												GregorianCalendar time = chooseAnAppointmentTime();
+												Appointment newApp = new Appointment(user2, user1, time);
+												addAppointment(newApp);
+												exit2 = false;
+											} else {
+												System.out.println(" ! Invalid ID.");
+											}
+										} catch (Exception e) {
+											System.out.println("Please try again and enter valid value.");
+										}
+									}
+									exit1 = false;
+									exit2 = false;
+								} else {
+									System.out.println(" ! Invalid ID.");
+								}
+							} catch (Exception e) {
+								System.out.println("Please try again and enter valid value.");
+							}
+						}
 						break;
+					}
 					case "5":
 						// Request for free time
 						break;
@@ -149,28 +195,35 @@ public class Receptionist extends User{
 	/**
 	 * The function to use selecting the appropriate time
 	 * for an appointment
+	 *
 	 * @return GregorianCalender after manipulating it's day and hours
 	 * within the given interval
-	 * */
+	 */
 	private GregorianCalendar chooseAnAppointmentTime() {
-		int[][] workhours =  {{9, 0},{9,30},{10,0},{10,30},{11,0},{11,30},{12,0},{12,30},{13,30},{14,0}
-				,{14,30},{15,0},{15,30},{16, 0},{16,30}};
+		int[][] workhours = {{9, 0}, {9, 30}, {10, 0}, {10, 30}, {11, 0}, {11, 30}, {12, 0}, {12, 30}, {13, 30}, {14, 0}
+				, {14, 30}, {15, 0}, {15, 30}, {16, 0}, {16, 30}};
 		GregorianCalendar now = new GregorianCalendar();
-		int year,day,hour,minute;
+		int year, day, hour, minute;
 		Scanner scanner = new Scanner(System.in);
 		String choice = null;
 
 		do {
+			now = new GregorianCalendar();
 			System.out.println("Please select a day from by entering their code numbers: ");
-			for (int i=0 ;i<5;i++){
-				now.add(Calendar.DAY_OF_MONTH,1);
-				System.out.print(i+"."+now.get(Calendar.DAY_OF_MONTH)+" ");
+			for (int i = 0; i < 5; i++) {
+				now.add(Calendar.DAY_OF_MONTH, 1);
+				if (now.get(Calendar.DAY_OF_WEEK) == 7 || now.get(Calendar.DAY_OF_WEEK) == 1) {
+					now.add(Calendar.DAY_OF_MONTH, 1);
+					i--;
+				} else {
+					System.out.print((i+1) + "." + now.get(Calendar.DAY_OF_MONTH) + " ");
+				}
 			}
 			choice = scanner.nextLine();
-		}while (0<Integer.parseInt(choice)&&Integer.parseInt(choice)<6);
+		} while (!(0 < Integer.parseInt(choice) && Integer.parseInt(choice) < 6));
 
 		now = new GregorianCalendar();
-		now.add(Calendar.DAY_OF_MONTH,Integer.parseInt(choice));
+		now.add(Calendar.DAY_OF_MONTH, Integer.parseInt(choice));
 
 		do {
 			System.out.println("\nPlease select an hour");
@@ -181,10 +234,10 @@ public class Receptionist extends User{
 				}
 			}
 			choice = scanner.nextLine();
-		}while (0<Integer.parseInt(choice)&&Integer.parseInt(choice)<16);
+		} while (!(0 < Integer.parseInt(choice) && Integer.parseInt(choice) < 16));
 
-		now.set(Calendar.HOUR_OF_DAY,workhours[Integer.parseInt(choice)][0]);
-		now.set(Calendar.MINUTE,workhours[Integer.parseInt(choice)][1]);
+		now.set(Calendar.HOUR_OF_DAY, workhours[Integer.parseInt(choice)][0]);
+		now.set(Calendar.MINUTE, workhours[Integer.parseInt(choice)][1]);
 
 		return now;
 	}
@@ -226,13 +279,14 @@ public class Receptionist extends User{
 					}
 					break;
 				case "0":
+					choice = "0";
 					break;
 				default:
 					System.out.println("For search please enter a valid input");
 					break;
 			}
 
-		}while (choice != "0");
+		}while (!choice.equals("0"));
 
 	}
 	/**
@@ -247,7 +301,7 @@ public class Receptionist extends User{
 		GregorianCalendar now = new GregorianCalendar();
 		while (t_iterator.hasNext()){
 			t_appointment=t_iterator.next();
-			if (t_appointment.getDoctor()==doctor&&t_appointment.getGregorianCalendarTime().after(now))
+			if (t_appointment.getDoctor()==doctor&&t_appointment.getGregorianCalendar().after(now))
 				t_appointment.print();
 		}
 	}
@@ -304,13 +358,14 @@ public class Receptionist extends User{
 					}
 					break;
 				case "0":
+					choice = "0";
 					break;
 				default:
 					System.out.println("For search please enter a valid input");
 					break;
 			}
 
-		}while (choice != "0");
+		}while (!choice.equals("0"));
 	}
 	/**
 	 * This function takes a patient and prints

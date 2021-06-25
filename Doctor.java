@@ -19,12 +19,13 @@ public class Doctor extends User{
 
 	public Doctor(String mail, String password){
 		super(new PersonalClass(mail, password), new Hospital("Grup 2"));
+		appointments=new PriorityQueue<>();
 	}
-	
-	
+
 	public Doctor() {
-		setCurrentPatientId(0);
-		setSpeciality("NoSpeciality");
+		super(new PersonalClass("mail", "password"), new Hospital("Grup 2"));
+		specialty = "NoSpeciality";
+		appointments=new PriorityQueue<>();
 	}
 
 	/**
@@ -310,7 +311,11 @@ public class Doctor extends User{
 					String mail = scanner.nextLine();
 					System.out.print("Enter new password: ");
 					String password = scanner.nextLine();
-					this.editProfile(this,mail,name,surname,password);
+					User user =this.getHospital().findUser(this.getHospital().getAllUsers(), mail, password);
+					if (user==null) {
+						this.editProfile(this, mail, name, surname, password);
+					}else
+						System.out.println("\n-> Invalid mail and password.");
 					break;
 				case "6":
 					exit = true;
@@ -328,7 +333,7 @@ public class Doctor extends User{
 						}
 						System.out.print("Please enter the ID: ");
 						String ID = scanner.nextLine();
-						User user = null;
+						user = null;
 						try{
 							for(Doctor doctor: this.getHospital().getDoctors()){
 								if(doctor.getPersonalData().getId() == Integer.parseInt(ID)
@@ -362,7 +367,7 @@ public class Doctor extends User{
 						if(this.showSuggestions()){
 							System.out.print("Please enter the ID: ");
 							String ID = scanner.nextLine();
-							User user = null;
+							user = null;
 							try{
 								for( Doctor doctor: this.getHospital().getDoctors()){
 									if(doctor.getPersonalData().getId() == Integer.parseInt(ID)
@@ -405,5 +410,33 @@ public class Doctor extends User{
 					break;
 			}
 		}while(!choice.equals("0"));
+	}
+	public void requestTime(GregorianCalendar date) {
+		Appointment freeTime=new Appointment(this, null, date);
+		Iterator iter = appointments.iterator();
+		boolean isOk=true;
+		while(iter.hasNext()) {
+			Appointment temp=new Appointment();
+			temp=(Appointment) iter.next();
+			if(temp.compareAppointmentbyDay(freeTime)==0)
+				if(temp.compareAppointmentbyHour(freeTime)==0) {
+					System.out.println("That time was already fulled.");
+					System.out.println("Please request another time");
+					isOk=false;
+					break;
+				}
+		}
+		if(isOk)
+			appointments.add(freeTime);
+	}
+	private void viewApp_Pat(){
+		Iterator<Appointment> iter = this.appointments.iterator();
+		Appointment temp;
+		while(iter.hasNext()){
+			temp = iter.next();
+			System.out.println("\nDoctor: " + temp.getDoctor().getPersonalData().getName());
+			System.out.println("Patient: " + temp.getPatient().getPersonalData().getName());
+			System.out.println("Appointment time: " + temp.getGregorianCalendar().getTime());
+		}
 	}
 }

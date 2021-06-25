@@ -176,7 +176,7 @@ public class Hospital {
 	 * @param password password for the user will be found
 	 * @return User
 	 */
-	private User findUser(BinaryTree<User> root, String mail, String password){
+	public User findUser(BinaryTree<User> root, String mail, String password){
 		if (root==null) {
 			return null;
 		}
@@ -274,7 +274,7 @@ public class Hospital {
 		admin.addReceptionist(receptionist2);
 		admin.addReceptionist(receptionist3);
 		/*Create appointments*/
-		Appointment appointment1 = new Appointment(doctor1, patient1, new Date(3000,1,1,22,1));
+		Appointment appointment1 = new Appointment(doctor1, patient1, new GregorianCalendar(3000,1,1,22,1));
 		doctor1.addAppointment(appointment1);
 	}
 }

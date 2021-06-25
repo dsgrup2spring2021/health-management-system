@@ -41,16 +41,16 @@ public class Appointment implements Comparable<Appointment>{
         awake = false;
     }
 
-    public String getGregorianCalendar(){
-        // Returning appointment time
-        return appointment_day.toString();
-    }
-
-    public GregorianCalendar getGregorianCalendarTime(){
+    public GregorianCalendar getGregorianCalendar(){
         // Returning appointment time
         return appointment_day;
     }
-
+/*
+    public GregorianCalendar getGregorianCalendarTime(){
+        // Returning appointment time
+        return appointment_day.getTime();
+    }
+*/
     public Doctor getDoctor(){
         // Returning assigned doctor class
         return relatedDoctor;
@@ -118,7 +118,7 @@ public class Appointment implements Comparable<Appointment>{
 
     public String printForDoctor(){
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Patient: " + this.getPatient().print() + "\n Time: " + this.getGregorianCalendar());
+        stringBuilder.append("Patient: " + this.getPatient().print() + "\n Time: " + this.getGregorianCalendar().getTime());
         return stringBuilder.toString();
     }
 
@@ -135,11 +135,20 @@ public class Appointment implements Comparable<Appointment>{
 
     @Override
     public String toString(){
-        return "Doctor: " + this.getDoctor() + " Patient: " + this.getPatient() + " Time: " + this.getGregorianCalendar();
+        return "Doctor: " + this.getDoctor() + " Patient: " + this.getPatient() + " Time: " + this.getGregorianCalendar().getTime();
     }
 
     @Override
     public int compareTo(Appointment o) {
-        return this.getGregorianCalendar().compareTo(o.getGregorianCalendar());
+        if(o.getDoctor().equals(this.getDoctor())
+                &&this.getGregorianCalendar().getTime().getHours() == o.getGregorianCalendar().getTime().getHours()
+                &&this.getGregorianCalendar().getTime().getMinutes() == o.getGregorianCalendar().getTime().getMinutes()
+                &&this.getGregorianCalendar().getTime().getMonth() == o.getGregorianCalendar().getTime().getMonth()
+                &&this.getGregorianCalendar().getTime().getYear() == o.getGregorianCalendar().getTime().getYear()
+                &&this.getGregorianCalendar().getTime().getDay() == o.getGregorianCalendar().getTime().getDay()
+                ){
+            return 0;
+        }
+        return -1;
     }
 }

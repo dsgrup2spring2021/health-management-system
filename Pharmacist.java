@@ -97,8 +97,12 @@ public class Pharmacist extends User{
 							break;
 						}
 					}
-					for (int i = 0; i < p.getPrescriptions().size(); i++) {
-						System.out.println(p.getPrescriptions().get(i));
+					if(p == null){
+						System.out.println(" -> Invalid ID.");
+					}else{
+						for (int i = 0; i < p.getPrescriptions().size(); i++) {
+							System.out.println(p.getPrescriptions().get(i));
+						}
 					}
 					break;
 				case 2:
