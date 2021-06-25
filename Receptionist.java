@@ -86,10 +86,11 @@ public class Receptionist extends User{
 				System.out.println(" 4 - Create an appointment");
 				System.out.println(" 5 - Request for free time");
 				System.out.println(" 6 - Edit profile");
+				System.out.println(" 7 - Deactivate an appointment ");
 				System.out.println(" 0 - Log out");
 				System.out.print("Please select: ");
 				choice = scanner.nextLine();
-				switch (choice){
+				switch (choice) {
 					case "1":
 						System.out.println();
 						this.viewPatientList();
@@ -103,15 +104,15 @@ public class Receptionist extends User{
 						String mail = scanner.nextLine();
 						System.out.print("Enter patient password: ");
 						String password = scanner.nextLine();
-						PersonalClass newPatientPersonal = new PersonalClass(name,surname,mail,password);
-						Patient newPatient = new Patient(newPatientPersonal,getHospital());
+						PersonalClass newPatientPersonal = new PersonalClass(name, surname, mail, password);
+						Patient newPatient = new Patient(newPatientPersonal, getHospital());
 						addPatient(newPatient);
 						break;
 					case "3":
 						System.out.println();
 						this.viewDoctorsList();
 						break;
-					case "4":{
+					case "4": {
 						boolean exit1 = true;
 						while (exit1) {
 							System.out.println();
@@ -167,7 +168,8 @@ public class Receptionist extends User{
 						break;
 					}
 					case "5":
-						// Request for free time
+						System.out.print("You have 1 hour break. Have a good time.");
+						choice = "0";
 						break;
 
 					case "6":
@@ -180,7 +182,60 @@ public class Receptionist extends User{
 						mail = scanner.nextLine();
 						System.out.print("Enter new password: ");
 						password = scanner.nextLine();
-						this.editProfile(this,mail,name,surname,password);
+						this.editProfile(this, mail, name, surname, password);
+						break;
+					case "7":
+						boolean exit1 = true;
+						while (exit1) {
+							System.out.println();
+							System.out.println(" * Patients * ");
+							this.getHospital().getAdmin().patientList();
+							System.out.print("Please enter the ID: ");
+							String ID = scanner.nextLine();
+							Patient user1 = null;
+							try {
+								for (Patient patient : this.getHospital().getPatients()) {
+									if (patient.getPersonalData().getId() == Integer.parseInt(ID)) {
+										user1 = patient;
+										break;
+									}
+								}
+								Iterator<Appointment> t_iterator = this.getHospital().getAppointments().iterator();
+								Appointment t_appointment = null;
+								int i = 0;
+
+								while (t_iterator.hasNext()){
+									t_appointment=t_iterator.next();
+									if (t_appointment.getPatient()==user1){
+										System.out.print((i+1)+". ");
+										i++;
+										t_appointment.print();
+									}
+								}
+								i = 0;
+								System.out.print("Please select an appointment: ");
+								String selection = scanner.nextLine();
+								while (t_iterator.hasNext()){
+									t_appointment=t_iterator.next();
+									if (t_appointment.getPatient()==user1){
+										if ((i+1)==Integer.parseInt(selection)){
+											t_iterator.next().setAwake(false);
+											break;
+										}
+										System.out.print((i+1)+". ");
+										i++;
+										t_appointment.print();
+									}
+
+								}
+
+								exit1 = false;
+
+
+							} catch(Exception e){
+							System.out.println("Please try again and enter valid value.");
+							}
+						}
 						break;
 					case "0":
 						System.out.println(" --> Log out... <-- ");
