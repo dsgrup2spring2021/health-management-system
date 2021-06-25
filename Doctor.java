@@ -336,7 +336,18 @@ public class Doctor extends User{
 					exit = true;
 					while(exit){
 						System.out.println();
-						if(!this.viewPatientList()){
+						/*if(!this.viewPatientList()){
+							break;
+						}*/
+						count =0;
+						for (Appointment appointment : getHospital().getAppointments()) {
+							if (appointment.getDoctor().getPersonalData().getId()==getPersonalData().getId()) {
+								System.out.println("ID: "+appointment.getPatient().getPersonalData().getId()+" NAME: "+appointment.getPatient().getPersonalData().getName());
+								count ++ ;
+							}
+						}
+						if (count==0) {
+							System.out.println("There is no active appointment right now.");
 							break;
 						}
 						System.out.println();
