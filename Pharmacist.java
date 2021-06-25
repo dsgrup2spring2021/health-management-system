@@ -9,6 +9,9 @@ public class Pharmacist extends User{
 		this.pharmacyName=pharmacyName;
 	}
 
+	public Pharmacist(PersonalClass person, Hospital hospital){
+		super(person, hospital);
+	}
 	/**
     * add suggestion
     * @param user the user(doctor or pharmacist)

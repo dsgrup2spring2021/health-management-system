@@ -1,4 +1,5 @@
 import java.util.Date;
+import java.util.Scanner;
 
 /**
  * 
@@ -138,7 +139,120 @@ public class Admin extends User{
 				adminData.getName(),adminData.getSurname(),adminData.getMail(),adminData.getId());
 	}
 
+
+	/**
+	 * menu for admin
+	 */
 	public void menu(){
-		System.out.println("\n Welcome Admin ");
+		System.out.println("\n Welcome Admin " + this.getPersonalData().getName() + " " + this.getPersonalData().getSurname());
+		
+		String choice = "";
+		Scanner scanner = new Scanner(System.in);
+		do{
+			System.out.println("\n 1 - Add patient");
+			System.out.println(" 2 - Remove patient ");
+			System.out.println(" 3 - Add doctor");
+			System.out.println(" 4 - Remove doctor");
+			System.out.println(" 5 - Add Pharmacist");
+			System.out.println(" 6 - Remove Pharmacist");
+			System.out.println(" 7 - Edit personel data");
+			System.out.println(" 0 - Log out");
+			System.out.print("Please select: ");
+			choice = scanner.nextLine();
+			switch (choice){
+				case "1":{
+					System.out.println("Enter the patient age weight height bloodtype");
+					int age=0;
+					if(scanner.hasNext())
+						age=scanner.nextInt();
+					System.out.println("Enter the patient weight");
+					int weight=0;
+					if(scanner.hasNext())
+						weight=scanner.nextInt();
+					System.out.println("Enter the patient height");
+					int height=0;
+					if(scanner.hasNext())
+						height=scanner.nextInt();
+					System.out.println("Enter the patient blood type");
+					this.addPatient(new Patient(age,weight,height,scanner.nextLine(),createPersonalData(),createHospital()));
+				}
+				case "2":{
+					System.out.println("Enter the patient age weight height bloodtype");
+					int age=0;
+					if(scanner.hasNext())
+						age=scanner.nextInt();
+					System.out.println("Enter the patient weight");
+					int weight = 0;
+					if(scanner.hasNext())
+						weight=scanner.nextInt();
+					System.out.println("Enter the patient height");
+					int height=0;
+					if(scanner.hasNext())
+						height=scanner.nextInt();
+					System.out.println("Enter the patient blood type");
+					this.addPatient(new Patient(age,weight,height,scanner.nextLine(),createPersonalData(),createHospital()));
+				}
+				case "3":{
+					System.out.println("Enter the Speciality of doctor");
+					this.addDoctor(new Doctor(createPersonalData(),createHospital(),scanner.nextLine()));
+				}
+				case "4":{
+					System.out.println("Enter the Speciality of doctor");
+					this.addDoctor(new Doctor(createPersonalData(),createHospital(),scanner.nextLine()));					
+				}
+				case "5":{
+					this.addPharmacist(new Pharmacist(createPersonalData(),createHospital()));
+				}
+				case "6":{
+					this.removePharmacist(new Pharmacist(createPersonalData(),createHospital()));
+				}
+				case "7":{
+					System.out.print("Enter new name: ");
+					String name = scanner.nextLine();
+					System.out.print("Enter new surname: ");
+					String surname = scanner.nextLine();
+					System.out.print("Enter new mail: ");
+					String mail = scanner.nextLine();
+					System.out.print("Enter new password: ");
+					String password = scanner.nextLine();
+					editProfile(this, mail, name, surname, password);
+				}
+				case "0":
+					break;
+				default:
+					System.out.println(" WARNING: Please enter a valid value.");
+					break;
+			}
+
+		}while(!choice.equals("0"));
+	}
+
+	/*
+	 * helper method for menu 
+	 *
+	 *	@return 			creates and returns Hospital
+	 */
+	private Hospital createHospital() {
+		System.out.println("Enter the hospital name");
+
+		Scanner scanner = new Scanner(System.in);
+		return new Hospital(scanner.nextLine());
+	}
+	/*
+	 * helper method for menu 
+	 *
+	 *	@return 			creates and returns person
+	 */
+	private PersonalClass createPersonalData() {
+
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Enter the patient name");
+		String name=scanner.nextLine();
+		System.out.println("Enter the patient surname");
+		String surname=scanner.nextLine();
+		System.out.println("Enter the patient mail");
+		String mail=scanner.nextLine();
+		System.out.println("Enter the patient password");
+		return new PersonalClass(name,surname,mail,scanner.nextLine());
 	}
 }

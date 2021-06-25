@@ -20,6 +20,12 @@ public class Doctor extends User{
 	public Doctor(String mail, String password){
 		super(new PersonalClass(mail, password), new Hospital("Grup 2"));
 	}
+	
+	
+	public Doctor() {
+		setCurrentPatientId(0);
+		setSpeciality("NoSpeciality");
+	}
 
 	/**
 	 * Function to return speciality
