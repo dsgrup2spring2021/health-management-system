@@ -8,10 +8,10 @@ public class Medicine {
     private static int staticId = 10000;
     private int id;
 
-    public Medicine(int id, String name, int quantiy){
+    public Medicine(int id, String name, int quantiy,int cost){
         this.name=name;
-        this.cost=0;
         this.quantiy=quantiy;
+        this.cost=cost;
         this.id=id;
     }
 

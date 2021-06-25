@@ -249,7 +249,7 @@ public class Hospital {
 		admin.addPatient(patient2);
 		admin.addPatient(patient3);
 		/*Create medicine*/
-		Medicine medicine1 = new Medicine("Nurofen", 15);
+		Medicine medicine1 = new Medicine(0,"Nurofen",0,15);
 		Medicine medicine2 = new Medicine("Arveles",8);
 		Medicine medicine3 = new Medicine("Parol", 5);
 		Medicine medicine4 = new Medicine("Deloday",2);

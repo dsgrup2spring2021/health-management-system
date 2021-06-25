@@ -298,7 +298,7 @@ public class Doctor extends User{
 											if(temp != null){
 												System.out.print("Please enter quantity: ");
 												String quantity = scanner.nextLine();
-												this.addPrescription(prescription, new Medicine(temp.getId(), temp.getName(), Integer.parseInt(quantity)));
+												this.addPrescription(prescription, new Medicine(temp.getId(), temp.getName(), Integer.parseInt(quantity),temp.getCost()));
 												checkPrescription = true;
 											}else{
 												System.out.print(" WARNING: The medicine already exists in the prescription. ");
@@ -365,7 +365,7 @@ public class Doctor extends User{
 				case "4":
 					try {
 						GregorianCalendar time = this.getHospital().getAdmin().chooseAnAppointmentTime();
-						Appointment newApp = new Appointment(this, null, time);
+						Appointment newApp = new Appointment(this, new Patient(new PersonalClass("Free", "Time", "unused", "unused"), getHospital()), time);
 						addAppointment(newApp);
 					} catch (Exception e) {
 						System.out.println("Please try again and enter valid value.");
