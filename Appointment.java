@@ -1,34 +1,34 @@
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Appointment implements Comparable<Appointment>{
-    private Date appday;
+    private GregorianCalendar appointment_day;
     private Boolean awake = true;
     private Doctor relatedDoctor;
     private Patient attachedPatient;
 
     public Appointment(){
-        appday = null;
+        appointment_day = null;
         relatedDoctor = null;
         attachedPatient = null;
         awake = true;
     }
-    public Appointment(Patient input_PATIENT,  Date input_DATE){
+    public Appointment(Patient input_PATIENT,  GregorianCalendar input_GregorianCalendar){
         // Default Constructor without doctor data
         attachedPatient = input_PATIENT;
-        appday = input_DATE;
+        appointment_day = input_GregorianCalendar;
     }
-    public Appointment(Doctor input_DOCTOR, Patient input_PATIENT,  Date input_DATE){
-        // Default Constructor with date datatype
+    public Appointment(Doctor input_DOCTOR, Patient input_PATIENT,  GregorianCalendar input_GregorianCalendar){
+        // Default Constructor with GregorianCalendar datatype
         relatedDoctor = input_DOCTOR;
         attachedPatient = input_PATIENT;
-        appday = input_DATE;
+        appointment_day = input_GregorianCalendar;
     }
 
     public Appointment(Doctor input_DOCTOR, Patient input_PATIENT, int year, int month, int day, int hour, int minute){
         //  Default constructor with integer inputs
         relatedDoctor = input_DOCTOR;
         attachedPatient = input_PATIENT;
-        appday = new Date(year,month,day,hour,minute);
+        appointment_day = new GregorianCalendar(year,month,day,hour,minute);
     }
 
     public Boolean isAwake(){
@@ -41,9 +41,14 @@ public class Appointment implements Comparable<Appointment>{
         awake = false;
     }
 
-    public String getDate(){
+    public String getGregorianCalendar(){
         // Returning appointment time
-        return appday.toString();
+        return appointment_day.toString();
+    }
+
+    public GregorianCalendar getGregorianCalendarTime(){
+        // Returning appointment time
+        return appointment_day;
     }
 
     public Doctor getDoctor(){
@@ -56,24 +61,24 @@ public class Appointment implements Comparable<Appointment>{
         return attachedPatient;
     }
 
-    public void setDate(Date input_DATE) {
-        // Setting a new date
-        this.appday = input_DATE;
+    public void setGregorianCalendar(GregorianCalendar input_GregorianCalendar) {
+        // Setting a new GregorianCalendar
+        this.appointment_day = input_GregorianCalendar;
     }
 
     public void setDoctor(Doctor doctor) {
-        // Setting a new date
+        // Setting a new GregorianCalendar
         this.relatedDoctor = doctor;
     }
 
     public void setPatient(Patient patient) {
-        // Setting a new date
+        // Setting a new GregorianCalendar
         this.attachedPatient = patient;
     }
 
-    public void editDate(int year, int month, int day, int hour, int minute){
-        // Editing date of Appointment
-        this.appday = new Date(year, month, day, hour, minute);
+    public void editGregorianCalendar(int year, int month, int day, int hour, int minute){
+        // Editing GregorianCalendar of Appointment
+        this.appointment_day = new GregorianCalendar(year, month, day, hour, minute);
     }
 
     public void setAttachedPatient(Patient attachedPatient) {
@@ -92,9 +97,9 @@ public class Appointment implements Comparable<Appointment>{
     }
 
     public int compareAppointmentbyHour(Appointment appointment2){
-        // Comparing two appointment by their Date data
+        // Comparing two appointment by their GregorianCalendar data
         // Returns 0 if equal or interval in hours
-        //long temp =( (appday.getTime() - appointment2.getDate().getTime())
+        //long temp =( (appday.getTime() - appointment2.getGregorianCalendar().getTime())
          //       / (1000 * 60 * 60 ) );
         //return temp.intValue();
         //?????????????????????????????????????????????
@@ -102,9 +107,9 @@ public class Appointment implements Comparable<Appointment>{
     }
 
     public int compareAppointmentbyDay(Appointment appointment2){
-        // Comparing two appointment by their Date data
-        // Returns 0 if equal or interval in date
-        //long temp =( (appday.getTime() - appointment2.getDate().getTime())
+        // Comparing two appointment by their GregorianCalendar data
+        // Returns 0 if equal or interval in GregorianCalendar
+        //long temp =( (appday.getTime() - appointment2.getGregorianCalendar().getTime())
         //        / (1000 * 60 * 60 * 24) );
         //return temp.intValue();
         //?????????????????????????????????????????????
@@ -113,17 +118,28 @@ public class Appointment implements Comparable<Appointment>{
 
     public String printForDoctor(){
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Patient: " + this.getPatient().print() + "\n Time: " + this.getDate());
+        stringBuilder.append("Patient: " + this.getPatient().print() + "\n Time: " + this.getGregorianCalendar());
         return stringBuilder.toString();
+    }
+
+    public void print(){
+        GregorianCalendar now = new GregorianCalendar();
+        System.out.print("\n"+toString());
+        if (awake)
+            System.out.print(" Status: Active");
+        else if (appointment_day.before(now))
+            System.out.print(" Status: Passed");
+        else
+            System.out.print(" Status: Non-Active");
     }
 
     @Override
     public String toString(){
-        return "Doctor: " + this.getDoctor() + " Patient: " + this.getPatient() + " Time: " + this.getDate();
+        return "Doctor: " + this.getDoctor() + " Patient: " + this.getPatient() + " Time: " + this.getGregorianCalendar();
     }
 
     @Override
     public int compareTo(Appointment o) {
-        return this.getDate().compareTo(o.getDate());
+        return this.getGregorianCalendar().compareTo(o.getGregorianCalendar());
     }
 }
