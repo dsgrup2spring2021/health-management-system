@@ -1,0 +1,12 @@
+Index: out/production/health-management-system/.idea/.name
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/out/production/health-management-system/.idea/.name b/out/production/health-management-system/.idea/.name
+new file mode 100644
+--- /dev/null	
++++ b/out/production/health-management-system/.idea/.name	
+@@ -0,0 +1,1 @@
++Main.java
+\ No newline at end of file
