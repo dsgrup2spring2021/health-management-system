@@ -16,12 +16,14 @@ public class Appointment implements Comparable<Appointment>{
         // Default Constructor without doctor data
         attachedPatient = input_PATIENT;
         appointment_day = input_GregorianCalendar;
+        awake = true;
     }
     public Appointment(Doctor input_DOCTOR, Patient input_PATIENT,  GregorianCalendar input_GregorianCalendar){
         // Default Constructor with GregorianCalendar datatype
         relatedDoctor = input_DOCTOR;
         attachedPatient = input_PATIENT;
         appointment_day = input_GregorianCalendar;
+        awake = true;
     }
 
     public Appointment(Doctor input_DOCTOR, Patient input_PATIENT, int year, int month, int day, int hour, int minute){
@@ -29,6 +31,7 @@ public class Appointment implements Comparable<Appointment>{
         relatedDoctor = input_DOCTOR;
         attachedPatient = input_PATIENT;
         appointment_day = new GregorianCalendar(year,month,day,hour,minute);
+        awake = true;
     }
 
     public Boolean isAwake(){
@@ -36,21 +39,12 @@ public class Appointment implements Comparable<Appointment>{
         return awake;
     }
 
-    public void checkout(){
-        // Method to access awake data
-        awake = false;
-    }
 
     public GregorianCalendar getGregorianCalendar(){
         // Returning appointment time
         return appointment_day;
     }
-/*
-    public GregorianCalendar getGregorianCalendarTime(){
-        // Returning appointment time
-        return appointment_day.getTime();
-    }
-*/
+
     public Doctor getDoctor(){
         // Returning assigned doctor class
         return relatedDoctor;
@@ -76,44 +70,9 @@ public class Appointment implements Comparable<Appointment>{
         this.attachedPatient = patient;
     }
 
-    public void editGregorianCalendar(int year, int month, int day, int hour, int minute){
-        // Editing GregorianCalendar of Appointment
-        this.appointment_day = new GregorianCalendar(year, month, day, hour, minute);
-    }
-
-    public void setAttachedPatient(Patient attachedPatient) {
-        // Attaching appointment to a patient
-        this.attachedPatient = attachedPatient;
-    }
-
     public void setAwake(Boolean input_B) {
         // Setting a status to appointment
         this.awake = input_B;
-    }
-
-    public void setRelatedDoctor(Doctor relatedDoctor) {
-        // Setting a related doctor to appointment
-        this.relatedDoctor = relatedDoctor;
-    }
-
-    public int compareAppointmentbyHour(Appointment appointment2){
-        // Comparing two appointment by their GregorianCalendar data
-        // Returns 0 if equal or interval in hours
-        //long temp =( (appday.getTime() - appointment2.getGregorianCalendar().getTime())
-         //       / (1000 * 60 * 60 ) );
-        //return temp.intValue();
-        //?????????????????????????????????????????????
-        return 0;
-    }
-
-    public int compareAppointmentbyDay(Appointment appointment2){
-        // Comparing two appointment by their GregorianCalendar data
-        // Returns 0 if equal or interval in GregorianCalendar
-        //long temp =( (appday.getTime() - appointment2.getGregorianCalendar().getTime())
-        //        / (1000 * 60 * 60 * 24) );
-        //return temp.intValue();
-        //?????????????????????????????????????????????
-        return 0;
     }
 
     public String printForDoctor(){

@@ -1,10 +1,7 @@
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
-
 /**
- * Stores all information about hospital and users.
- * @author Atakan ALTIN
- *
+ * Stores all information about hospital and users.*
  */
 public class Hospital {
 	
@@ -15,7 +12,8 @@ public class Hospital {
 	private TreeSet<Patient> patients;
 	private ArrayList<Receptionist> receptionists;
 	private ArrayList<Pharmacist> pharmacists;
-	private ArrayList<Prescription> prescriptions; 
+	private ArrayList<Prescription> prescriptions;
+	private ArrayList<Medicine> medicines;
 	private PriorityQueue<Appointment> appointments;
 	private ArrayList<DailyHistory> dailyHistory;
 	private ListGraph<User> relatedUsers;
@@ -36,6 +34,7 @@ public class Hospital {
 		appointments = new PriorityQueue<>();
 		dailyHistory = new ArrayList<>();
 		relatedUsers = new ListGraph<User>(100, false);
+		medicines = new ArrayList<>();
 		allUsers.add(admin);
 	}
 	/**
@@ -115,6 +114,13 @@ public class Hospital {
 		return this.allUsers;
 	}
 	/**
+	 * All medicines getter.
+	 * @return All medicines in the hospital.
+	 */
+	public ArrayList<Medicine> getAllMedicines() {
+		return this.medicines;
+	}
+	/**
 	 * Finds users by their id.
 	 * @param id User id
 	 * @return User
@@ -168,7 +174,6 @@ public class Hospital {
 		user.menu();
 		return true;
 	}
-
 	/**
 	 * Function to find user with mail and password
 	 * @param root root of all users.
@@ -196,15 +201,19 @@ public class Hospital {
 	 * @param specialityInput is the string input
 	 * @return temp or null if not finded
 	 * */
-	public Doctor findDoctorBySpeciality(String specialityInput){
+	public ArrayList<Doctor> findDoctorBySpeciality(String specialityInput){
 		Iterator<Doctor> iter = doctors.descendingIterator();
+		ArrayList<Doctor> tempDoctors = new ArrayList<>();
 		Doctor temp = new Doctor(new PersonalClass(null, null), this, null);
 		while (iter.hasNext()){
 			temp = iter.next();
 			if(temp.getSpecialty().contains(specialityInput)&&temp.isAvailable())
-				return temp;
+				tempDoctors.add(temp);
 		}
-		return null;
+		if (tempDoctors.size()==0)
+			return null;
+		else
+			return tempDoctors;
 	}
 	/**
 	 * Function to searching doctors by name
@@ -245,14 +254,36 @@ public class Hospital {
 		admin.addPatient(patient1);
 		admin.addPatient(patient2);
 		admin.addPatient(patient3);
+		/*Create medicine*/
+		Medicine medicine1 = new Medicine("Nurofen", 15);
+		Medicine medicine2 = new Medicine("Arveles",8);
+		Medicine medicine3 = new Medicine("Parol", 5);
+		Medicine medicine4 = new Medicine("Deloday",2);
+		Medicine medicine5 = new Medicine("Aspirin",45);
+		Medicine medicine6 = new Medicine("Dolorex",101);
+		Medicine medicine7 = new Medicine("Zedprex",211);
+		Medicine medicine8 = new Medicine("Majezik",91);
+		Medicine medicine9 = new Medicine("Apranax",23);
+		Medicine medicine10 = new Medicine("Novalgin",56);
+		admin.getHospital().getAllMedicines().add(medicine1);
+		admin.getHospital().getAllMedicines().add(medicine2);
+		admin.getHospital().getAllMedicines().add(medicine3);
+		admin.getHospital().getAllMedicines().add(medicine4);
+		admin.getHospital().getAllMedicines().add(medicine5);
+		admin.getHospital().getAllMedicines().add(medicine6);
+		admin.getHospital().getAllMedicines().add(medicine7);
+		admin.getHospital().getAllMedicines().add(medicine8);
+		admin.getHospital().getAllMedicines().add(medicine9);
+		admin.getHospital().getAllMedicines().add(medicine10);
 
+		/*
 		Prescription pres1 = new Prescription(doctor1,patient1);
         pres1.addMedicine(new Medicine("Nurofen", 15, 1));
         pres1.addMedicine(new Medicine("Arveles",8,2));
         pres1.addMedicine(new Medicine("Parol", 5, 1));
         pres1.addMedicine(new Medicine("Deloday",21,1));
 		patient1.getPrescriptions().add(pres1);
-
+*/
 		/*Create pharmacists*/
 		PersonalClass p7 = new PersonalClass("a","a","d","a");
 		PersonalClass p8 = new PersonalClass("b","b","e","b");

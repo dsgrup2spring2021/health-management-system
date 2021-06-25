@@ -1,3 +1,6 @@
+/**
+ * User interface includes what all users do
+ */
 public interface UserInterface {
     /**
      * To edit the user's profile

@@ -103,12 +103,6 @@ public class Patient extends User{
         */
     }
 
-    public boolean appointmentHistory() {
-        return false;
-    }
-
-    //public void showTestResults(){ }
-
     /*
      * sees a specific user's suggestions
      * @param user the user(doctor or pharmacist)

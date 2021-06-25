@@ -16,10 +16,10 @@ public class Medicine {
         this.id=id;
     }
 
-    public Medicine(String name, int cost, int quantiy){
+    public Medicine(String name, int cost){
         this.name=name;
         this.cost=cost;
-        this.quantiy=quantiy;
+        this.quantiy=0;
         this.id=staticId;
         staticId++;
     }

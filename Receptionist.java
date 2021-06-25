@@ -1,25 +1,27 @@
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
-
 /**
-* A class of Receptionist
-* @author Emine Sultan Savran
-*/
-
-
+ * A class to keep Receptionist's information and
+ * actions
+ */
 public class Receptionist extends User{
-
 	//Methods
 	/**
-	* Constructor
-	*/
+	 * Create Receptionist object with given data
+	 * @param person personal data
+	 * @param hospital hospital
+	 */
 	Receptionist(PersonalClass person, Hospital hospital){
 		super(person, hospital);
 		//Create new receptionist	
 	}
-	
+	/**
+	 * To add a patient to the hospital
+	 * @param patient to add
+	 * @return true if it can add,
+	 * 			otherwise false
+	 */
 	public boolean addPatient(Patient patient){
-		/*zaten var olan hasta tekrar eklenmek istenirse -> false*/
 		if( getHospital().getPatients().contains(patient) ){
 			System.out.println("WARNING: Cannot add. The patient already exists.");
 			return false;
@@ -27,7 +29,12 @@ public class Receptionist extends User{
 		getHospital().getPatients().add(patient);
 		return true;
 	}
-
+	/**
+	 * Add an appointment to the hospital
+	 * @param appointment to add
+	 * @return true if it can add,
+	 * 			otherwise false
+	 */
 	public boolean addAppointment(Appointment appointment) {
 		for(Appointment appointment1: getHospital().getAppointments()){
 			if(appointment.compareTo(appointment1) == 0){
@@ -38,214 +45,6 @@ public class Receptionist extends User{
 		System.out.println(" The appointment is added.");
 		getHospital().getAppointments().offer(appointment);
 		return true;
-	}
-
-	public boolean removeAppointment(Appointment appointment){
-		/*hastanın böyle bi randevusu yoksa remove da edilemez -> false */
-		if( !getHospital().getAppointments().contains(appointment) ){
-			System.out.println("WARNING: Cannot remove. The appointment does not exist.");
-			return false;
-		}
-		getHospital().getAppointments().remove(appointment);
-		return true;
-	}
-
-	public boolean isDoctorAvailable(Doctor doctor, Appointment appointment){
-		/*Doktorun bu appointment zamanında başka bir appointmentı
-		varsa -> false
-		yoksa -> true*/
-		Iterator<Appointment> temp = doctor.getAppointments().iterator();
-		Appointment t_appointment = null;
-		while (temp.hasNext()){
-			t_appointment=temp.next();
-			if (t_appointment.getGregorianCalendar().equals(appointment.getGregorianCalendar())&&t_appointment.isAwake())
-				return false;
-		}
-		return true;
-	}
-
-	public boolean showDoctorsTimeSlot(Doctor doctor){
-		/*Doktorun boş zamanı yoksa->false*/
-		return true;
-	}
-
-
-	/**
-	 * The menu for the Receptionist class and users
-	 * */
-	public void menu(){
-
-		System.out.println("\n Welcome Receptionist " + this.getPersonalData().getName() + " " + this.getPersonalData().getSurname());
-			String choice = "";
-			boolean exit = true;
-			Scanner scanner = new Scanner(System.in);
-			do{
-				System.out.println("\n 1 - View patient list");
-				System.out.println(" 2 - Add a patient");
-				System.out.println(" 3 - View doctors list");
-				System.out.println(" 4 - Create an appointment");
-				System.out.println(" 5 - Request for free time");
-				System.out.println(" 6 - Edit profile");
-				System.out.println(" 7 - Deactivate an appointment ");
-				System.out.println(" 0 - Log out");
-				System.out.print("Please select: ");
-				choice = scanner.nextLine();
-				switch (choice) {
-					case "1":
-						System.out.println();
-						this.viewPatientList();
-						break;
-					case "2":
-						System.out.print("Enter patient name: ");
-						String name = scanner.nextLine();
-						System.out.print("Enter patient surname: ");
-						String surname = scanner.nextLine();
-						System.out.print("Enter patient mail: ");
-						String mail = scanner.nextLine();
-						System.out.print("Enter patient password: ");
-						String password = scanner.nextLine();
-						PersonalClass newPatientPersonal = new PersonalClass(name, surname, mail, password);
-						Patient newPatient = new Patient(newPatientPersonal, getHospital());
-						addPatient(newPatient);
-						break;
-					case "3":
-						System.out.println();
-						this.viewDoctorsList();
-						break;
-					case "4": {
-						boolean exit1 = true;
-						while (exit1) {
-							System.out.println();
-							System.out.println(" * Patients * ");
-							this.getHospital().getAdmin().patientList();
-							System.out.print("Please enter the ID: ");
-							String ID = scanner.nextLine();
-							Patient user1 = null;
-							try {
-								for (Patient patient : this.getHospital().getPatients()) {
-									if (patient.getPersonalData().getId() == Integer.parseInt(ID)) {
-										user1 = patient;
-										break;
-									}
-								}
-								if (user1 != null) {
-									boolean exit2 = true;
-									while (exit2) {
-										System.out.println();
-										System.out.println(" * Doctors * ");
-										this.getHospital().getAdmin().doctorList();
-										System.out.print("Please enter the ID: ");
-										ID = scanner.nextLine();
-										Doctor user2 = null;
-										try {
-											for (Doctor doctor : this.getHospital().getDoctors()) {
-												if (doctor.getPersonalData().getId() == Integer.parseInt(ID)) {
-													user2 = doctor;
-													break;
-												}
-											}
-											if (user2 != null) {
-												GregorianCalendar time = chooseAnAppointmentTime();
-												Appointment newApp = new Appointment(user2, user1, time);
-												addAppointment(newApp);
-												exit2 = false;
-											} else {
-												System.out.println(" ! Invalid ID.");
-											}
-										} catch (Exception e) {
-											System.out.println("Please try again and enter valid value.");
-										}
-									}
-									exit1 = false;
-									exit2 = false;
-								} else {
-									System.out.println(" ! Invalid ID.");
-								}
-							} catch (Exception e) {
-								System.out.println("Please try again and enter valid value.");
-							}
-						}
-						break;
-					}
-					case "5":
-						System.out.print("You have 1 hour break. Have a good time.");
-						choice = "0";
-						break;
-
-					case "6":
-						//Edit profile
-						System.out.print("Enter new name: ");
-						name = scanner.nextLine();
-						System.out.print("Enter new surname: ");
-						surname = scanner.nextLine();
-						System.out.print("Enter new mail: ");
-						mail = scanner.nextLine();
-						System.out.print("Enter new password: ");
-						password = scanner.nextLine();
-						this.editProfile(this, mail, name, surname, password);
-						break;
-					case "7":
-						boolean exit1 = true;
-						while (exit1) {
-							System.out.println();
-							System.out.println(" * Patients * ");
-							this.getHospital().getAdmin().patientList();
-							System.out.print("Please enter the ID: ");
-							String ID = scanner.nextLine();
-							Patient user1 = null;
-							try {
-								for (Patient patient : this.getHospital().getPatients()) {
-									if (patient.getPersonalData().getId() == Integer.parseInt(ID)) {
-										user1 = patient;
-										break;
-									}
-								}
-								Iterator<Appointment> t_iterator = this.getHospital().getAppointments().iterator();
-								Appointment t_appointment = null;
-								int i = 0;
-
-								while (t_iterator.hasNext()){
-									t_appointment=t_iterator.next();
-									if (t_appointment.getPatient()==user1){
-										System.out.print((i+1)+". ");
-										i++;
-										t_appointment.print();
-									}
-								}
-								i = 0;
-								System.out.print("Please select an appointment: ");
-								String selection = scanner.nextLine();
-								while (t_iterator.hasNext()){
-									t_appointment=t_iterator.next();
-									if (t_appointment.getPatient()==user1){
-										if ((i+1)==Integer.parseInt(selection)){
-											t_iterator.next().setAwake(false);
-											break;
-										}
-										System.out.print((i+1)+". ");
-										i++;
-										t_appointment.print();
-									}
-
-								}
-
-								exit1 = false;
-
-
-							} catch(Exception e){
-							System.out.println("Please try again and enter valid value.");
-							}
-						}
-						break;
-					case "0":
-						System.out.println(" --> Log out... <-- ");
-						break;
-					default:
-						System.out.println(" WARNING: Please enter a valid value.");
-						break;
-				}
-			}while(!choice.equals("0"));
-
 	}
 	/**
 	 * The function to use selecting the appropriate time
@@ -261,7 +60,6 @@ public class Receptionist extends User{
 		int year, day, hour, minute;
 		Scanner scanner = new Scanner(System.in);
 		String choice = null;
-
 		do {
 			now = new GregorianCalendar();
 			System.out.println("Please select a day from by entering their code numbers: ");
@@ -275,11 +73,10 @@ public class Receptionist extends User{
 				}
 			}
 			choice = scanner.nextLine();
-		} while (!(0 < Integer.parseInt(choice) && Integer.parseInt(choice) < 6));
+		} while (!(0 <= Integer.parseInt(choice) && Integer.parseInt(choice) < 6));
 
 		now = new GregorianCalendar();
 		now.add(Calendar.DAY_OF_MONTH, Integer.parseInt(choice));
-
 		do {
 			System.out.println("\nPlease select an hour");
 			for (int i = 0; i < workhours.length; i++) {
@@ -289,11 +86,9 @@ public class Receptionist extends User{
 				}
 			}
 			choice = scanner.nextLine();
-		} while (!(0 < Integer.parseInt(choice) && Integer.parseInt(choice) < 16));
-
+		} while (!(0 <= Integer.parseInt(choice) && Integer.parseInt(choice) < 16));
 		now.set(Calendar.HOUR_OF_DAY, workhours[Integer.parseInt(choice)][0]);
 		now.set(Calendar.MINUTE, workhours[Integer.parseInt(choice)][1]);
-
 		return now;
 	}
 	/**
@@ -308,7 +103,6 @@ public class Receptionist extends User{
 			t_doctor=t_iterator.next();
 			System.out.println("  "+t_doctor.getPersonalData().getId()+"  "+t_doctor.toString());
 		}
-
 		boolean exit = true;
 		Scanner scanner = new Scanner(System.in);
 		String choice = "";
@@ -340,9 +134,7 @@ public class Receptionist extends User{
 					System.out.println("For search please enter a valid input");
 					break;
 			}
-
 		}while (!choice.equals("0"));
-
 	}
 	/**
 	 * This function takes a doctor and prints
@@ -388,7 +180,6 @@ public class Receptionist extends User{
 		while (t_iterator.hasNext()){
 			System.out.println(t_iterator.next().print());
 		}
-
 		boolean exit = true;
 		Scanner scanner = new Scanner(System.in);
 		String choice = "";
@@ -419,7 +210,6 @@ public class Receptionist extends User{
 					System.out.println("For search please enter a valid input");
 					break;
 			}
-
 		}while (!choice.equals("0"));
 	}
 	/**
@@ -453,5 +243,176 @@ public class Receptionist extends User{
 				return patient;
 		}
 		return null;
+	}
+	/**
+	 * The menu for the Receptionist class and users
+	 * */
+	public void menu(){
+		System.out.println("\n Welcome Receptionist " + this.getPersonalData().getName() + " " + this.getPersonalData().getSurname());
+		String choice = "";
+		boolean exit = true;
+		Scanner scanner = new Scanner(System.in);
+		do{
+			System.out.println("\n 1 - View patient list");
+			System.out.println(" 2 - Add a patient");
+			System.out.println(" 3 - View doctors list");
+			System.out.println(" 4 - Create an appointment");
+			System.out.println(" 5 - Request for free time");
+			System.out.println(" 6 - Edit profile");
+			System.out.println(" 7 - Deactivate an appointment ");
+			System.out.println(" 0 - Log out");
+			System.out.print("Please select: ");
+			choice = scanner.nextLine();
+			switch (choice) {
+				case "1":
+					System.out.println();
+					this.viewPatientList();
+					break;
+				case "2":
+					System.out.print("Enter patient name: ");
+					String name = scanner.nextLine();
+					System.out.print("Enter patient surname: ");
+					String surname = scanner.nextLine();
+					System.out.print("Enter patient mail: ");
+					String mail = scanner.nextLine();
+					System.out.print("Enter patient password: ");
+					String password = scanner.nextLine();
+					PersonalClass newPatientPersonal = new PersonalClass(name, surname, mail, password);
+					Patient newPatient = new Patient(newPatientPersonal, getHospital());
+					addPatient(newPatient);
+					break;
+				case "3":
+					System.out.println();
+					this.viewDoctorsList();
+					break;
+				case "4": {
+					boolean exit1 = true;
+					while (exit1) {
+						System.out.println();
+						System.out.println(" * Patients * ");
+						this.getHospital().getAdmin().patientList();
+						System.out.print("Please enter the ID: ");
+						String ID = scanner.nextLine();
+						Patient user1 = null;
+						try {
+							for (Patient patient : this.getHospital().getPatients()) {
+								if (patient.getPersonalData().getId() == Integer.parseInt(ID)) {
+									user1 = patient;
+									break;
+								}
+							}
+							if (user1 != null) {
+								boolean exit2 = true;
+								while (exit2) {
+									System.out.println();
+									System.out.println(" * Doctors * ");
+									this.getHospital().getAdmin().doctorList();
+									System.out.print("Please enter the ID: ");
+									ID = scanner.nextLine();
+									Doctor user2 = null;
+									try {
+										for (Doctor doctor : this.getHospital().getDoctors()) {
+											if (doctor.getPersonalData().getId() == Integer.parseInt(ID)) {
+												user2 = doctor;
+												break;
+											}
+										}
+										if (user2 != null) {
+											GregorianCalendar time = chooseAnAppointmentTime();
+											Appointment newApp = new Appointment(user2, user1, time);
+											addAppointment(newApp);
+											exit2 = false;
+										} else {
+											System.out.println(" ! Invalid ID.");
+										}
+									} catch (Exception e) {
+										System.out.println("Please try again and enter valid value.");
+									}
+								}
+								exit1 = false;
+								exit2 = false;
+							} else {
+								System.out.println(" ! Invalid ID.");
+							}
+						} catch (Exception e) {
+							System.out.println("Please try again and enter valid value.");
+						}
+					}
+					break;
+				}
+				case "5":
+					System.out.print("You have 1 hour break. Have a good time.");
+					choice = "0";
+					break;
+				case "6":
+					//Edit profile
+					System.out.print("Enter new name: ");
+					name = scanner.nextLine();
+					System.out.print("Enter new surname: ");
+					surname = scanner.nextLine();
+					System.out.print("Enter new mail: ");
+					mail = scanner.nextLine();
+					System.out.print("Enter new password: ");
+					password = scanner.nextLine();
+					this.editProfile(this, mail, name, surname, password);
+					break;
+				case "7":
+					boolean exit1 = true;
+					while (exit1) {
+						System.out.println();
+						System.out.println(" * Patients * ");
+						this.getHospital().getAdmin().patientList();
+						System.out.print("Please enter the ID: ");
+						String ID = scanner.nextLine();
+						Patient user1 = null;
+						try {
+							for (Patient patient : this.getHospital().getPatients()) {
+								if (patient.getPersonalData().getId() == Integer.parseInt(ID)) {
+									user1 = patient;
+									break;
+								}
+							}
+							Iterator<Appointment> t_iterator = this.getHospital().getAppointments().iterator();
+							Appointment t_appointment = null;
+							int i = 0;
+
+							while (t_iterator.hasNext()){
+								t_appointment=t_iterator.next();
+								if (t_appointment.getPatient()==user1
+								&& t_appointment.isAwake()){
+									System.out.print((i+1)+". ");
+									i++;
+									t_appointment.print();
+								}
+							}
+							i = 0;
+							System.out.println("Please select an appointment: ");
+							String selection = scanner.nextLine();
+							while (t_iterator.hasNext()){
+								t_appointment=t_iterator.next();
+								if (t_appointment.getPatient()==user1){
+									if ((i+1)==Integer.parseInt(selection)){
+										t_iterator.next().setAwake(false);
+										break;
+									}
+									System.out.print((i+1)+". ");
+									i++;
+									t_appointment.print();
+								}
+							}
+							exit1 = false;
+						} catch(Exception e){
+							System.out.println("Please try again and enter valid value.");
+						}
+					}
+					break;
+				case "0":
+					System.out.println(" --> Log out... <-- ");
+					break;
+				default:
+					System.out.println(" WARNING: Please enter a valid value.");
+					break;
+			}
+		}while(!choice.equals("0"));
 	}
 }

@@ -1,8 +1,3 @@
-/**
- * class for User
- * @author Ozan Argit Onceken
- */
-
 public abstract class User implements UserInterface, Comparable<User>{
 	/**To hold personal data*/
 	private PersonalClass person;

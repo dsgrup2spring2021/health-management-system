@@ -11,23 +11,26 @@ public class Doctor extends User{
 	private boolean available = true ;
 	//Methods
 	/**Constructors*/
+	/**
+	 * Create doctor object with given data
+	 * @param person personal data
+	 * @param hospital hospital
+	 * @param specialty specialty
+	 */
 	public Doctor(PersonalClass person, Hospital hospital, String specialty) {
 		super(person, hospital);
 		this.specialty = specialty;
 		appointments=new PriorityQueue<>();
 	}
-
+	/**
+	 * Create doctor object with given datas
+	 * @param mail mail
+	 * @param password password
+	 */
 	public Doctor(String mail, String password){
 		super(new PersonalClass(mail, password), new Hospital("Grup 2"));
 		appointments=new PriorityQueue<>();
 	}
-
-	public Doctor() {
-		super(new PersonalClass("mail", "password"), new Hospital("Grup 2"));
-		specialty = "NoSpeciality";
-		appointments=new PriorityQueue<>();
-	}
-
 	/**
 	 * Function to return speciality
 	 * @return specialty
@@ -35,7 +38,6 @@ public class Doctor extends User{
 	public String getSpecialty() {
 		return specialty;
 	}
-
 	/**
 	 * Function to return appointments
 	 * @return appointments
@@ -43,18 +45,23 @@ public class Doctor extends User{
 	public PriorityQueue<Appointment> getAppointments(){
 		return appointments;
 	}
-
 	/**
 	 * Add an appointment to the doctor's appointment list
+	 * @param appointment to take an appointment
+	 * @return if adding successfully, return true
+	 * 		otherwise false
 	 */
-	public void addAppointment(Appointment appointment){
-		if(appointments.contains(appointment)){
-			System.out.println(" -> There already exists this appointment. Cannot add.");
-			return;
+	public boolean addAppointment(Appointment appointment) {
+		for(Appointment appointment1: getHospital().getAppointments()){
+			if(appointment.compareTo(appointment1) == 0){
+				System.out.println("WARNING: Cannot add. The appointment is full.");
+				return false;
+			}
 		}
-		appointments.offer(appointment);
+		System.out.println(" The appointment is added.");
+		getHospital().getAppointments().offer(appointment);
+		return true;
 	}
-
 	/**
 	 * Doctors can view active appointment list
 	 */
@@ -75,9 +82,10 @@ public class Doctor extends User{
 			System.out.println(" - " + appointment.printForDoctor());
 		}
 	}
-
 	/**
-	 * Doctors can view active appointment list
+	 * Doctors can view active patient list
+	 * @return true if there is a active patient
+	 * 			otherwise return false
 	 */
 	public boolean viewPatientList(){
 		PriorityQueue<Appointment> activeAppointments = new PriorityQueue<>();
@@ -97,7 +105,12 @@ public class Doctor extends User{
 		}
 		return true;
 	}
-
+	/**
+	 * Searching a patient with given ID
+	 * @param patientID ID to search
+	 * @return if it can find, returns the patient
+	 * 			otherwise returns null
+	 */
 	public Patient searchPatient(int patientID){
 		for(Appointment appointment: appointments){
 			if(appointment.getPatient().getPersonalData().getId() == patientID)
@@ -105,7 +118,11 @@ public class Doctor extends User{
 		}
 		return null;
 	}
-
+	/**
+	 * To add a disease to the patient
+	 * @param patient the patient
+	 * @param disease patient's disease
+	 */
 	public void addDisease(Patient patient, String disease){
 		if(!patient.getDiseases().contains(disease)){
 			patient.getDiseases().add(disease);
@@ -114,12 +131,18 @@ public class Doctor extends User{
 		}
 		System.out.println(" -> WARNING: The disease already exists. Cannot add.");
 	}
-
+	/**
+	 * To view a specific patient's history
+	 * @param patient patient
+	 */
 	public void viewPatientHistory(Patient patient){
 		patient.showHistory();
 	}
-
-	/**Doctors can prescribe to the patient*/
+	/**
+	 * Doctors can prescribe to the patient
+	 * @param prescription prescription of the patient
+	 * @param medicine medicine
+	 */
 	public void addPrescription(Prescription prescription, Medicine medicine){
 		if(prescription.getMedicines().containsKey(medicine.getId())){
 			System.out.println(" -> WARNING: The medicine already exists. Cannot add.");
@@ -128,19 +151,10 @@ public class Doctor extends User{
 		prescription.getMedicines().put(medicine.getId(), medicine);
 		System.out.println(" -> The medicine is added.");
 	}
-
-	//bunu eklemem gerekti
-	/**Doctors can check and view their free times*/
-	public void showFreeTime(){
-		ArrayList <Appointment>x=new ArrayList<>();
-		while(!appointments.isEmpty()) {
-			x.add(appointments.poll());
-		}
-	}
-
 	/**
 	 * add suggestion
 	 * @param user the user(doctor or pharmacist)
+	 * @throws IllegalArgumentException
 	 */
 	public void addSuggestion(User user) throws IllegalArgumentException{
 		if(this.getHospital().getRelatedUsers().isEdge(this, user)){
@@ -154,14 +168,13 @@ public class Doctor extends User{
 		else
 			throw new IllegalArgumentException();
 	}
-
 	/** Returns true if available appointment time exist
 	 * false if appointment times are full
+	 * @return available
 	 * */
 	public boolean isAvailable() {
 		return available;
 	}
-
 	/**
 	 * remove suggestion
 	 * @param user the user(doctor or pharmacist)
@@ -174,9 +187,10 @@ public class Doctor extends User{
 		else
 			throw new IllegalArgumentException();
 	}
-
 	/**
 	 * sees own suggestions
+	 * @return returns true if there is a suggestion,
+	 * 			otherwise false
 	 */
 	public boolean showSuggestions(){
 		String print = getHospital().getRelatedUsers().print(this);
@@ -187,14 +201,15 @@ public class Doctor extends User{
 		System.out.print(print);
 		return true;
 	}
-
 	@Override
 	public String toString(){
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("Doctor | " + super.toString() + " | Specialty: " + this.specialty);
 		return stringBuilder.toString();
 	}
-
+	/**
+	 * The menu of the Doctor
+	 */
 	public void menu(){
 		System.out.println("\n Welcome Doctor " + this.getPersonalData().getName() + " " + this.getPersonalData().getSurname());
 		String choice = "";
@@ -242,17 +257,27 @@ public class Doctor extends User{
 								String selection = scanner.nextLine();
 								switch (selection) {
 									case "1":
-										//viewMedicine();
-										System.out.print("Please enter medicine ID: ");
-										String medicineID = scanner.nextLine();
-										System.out.print("Please enter medicine name: ");
-										String medicineName = scanner.nextLine();
-										System.out.print("Please enter quantity: ");
-										String quantity = scanner.nextLine();
-										try {
-											this.addPrescription(prescription,
-													new Medicine(Integer.parseInt(medicineID), medicineName, Integer.parseInt(quantity)));
-											checkPrescription = true;
+										try{
+											for(Medicine medicine: this.getHospital().getAllMedicines()){
+												System.out.println(" -> ID: " + medicine.getId() + " | Name: " + medicine.getName());
+											}
+											System.out.print("Please enter medicine ID: ");
+											String medicineID = scanner.nextLine();
+											Medicine temp = null;
+											for(Medicine medicine: this.getHospital().getAllMedicines()){
+												if(medicine.getId() == Integer.parseInt(medicineID)){
+													temp = medicine;
+												}
+											}
+											if(temp != null){
+												System.out.print("Please enter quantity: ");
+												String quantity = scanner.nextLine();
+												this.addPrescription(prescription, new Medicine(temp.getId(), temp.getName(), Integer.parseInt(quantity)));
+												checkPrescription = true;
+											}else{
+												System.out.print(" WARNING: The medicine already exists in the prescription. ");
+											}
+
 										} catch (Exception e) {
 											System.out.println("Please try again and enter valid value.");
 										}
@@ -264,9 +289,10 @@ public class Doctor extends User{
 										System.out.println("Please enter valid value.");
 										break;
 								}
-								if (checkPrescription)
-									patient.getPrescriptions().add(prescription);
+
 							}
+							if (checkPrescription)
+								patient.getPrescriptions().add(prescription);
 							for (Appointment appointment : this.appointments) {
 								if (appointment.getPatient().equals(patient) &&
 										appointment.getDoctor().equals(this)) {
@@ -300,7 +326,13 @@ public class Doctor extends User{
 					}
 					break;
 				case "4":
-					//request free time
+					try {
+						GregorianCalendar time = this.getHospital().getAdmin().chooseAnAppointmentTime();
+						Appointment newApp = new Appointment(this, null, time);
+						addAppointment(newApp);
+					} catch (Exception e) {
+						System.out.println("Please try again and enter valid value.");
+					}
 					break;
 				case "5":
 					System.out.print("Enter new name: ");
@@ -410,33 +442,5 @@ public class Doctor extends User{
 					break;
 			}
 		}while(!choice.equals("0"));
-	}
-	public void requestTime(GregorianCalendar date) {
-		Appointment freeTime=new Appointment(this, null, date);
-		Iterator iter = appointments.iterator();
-		boolean isOk=true;
-		while(iter.hasNext()) {
-			Appointment temp=new Appointment();
-			temp=(Appointment) iter.next();
-			if(temp.compareAppointmentbyDay(freeTime)==0)
-				if(temp.compareAppointmentbyHour(freeTime)==0) {
-					System.out.println("That time was already fulled.");
-					System.out.println("Please request another time");
-					isOk=false;
-					break;
-				}
-		}
-		if(isOk)
-			appointments.add(freeTime);
-	}
-	private void viewApp_Pat(){
-		Iterator<Appointment> iter = this.appointments.iterator();
-		Appointment temp;
-		while(iter.hasNext()){
-			temp = iter.next();
-			System.out.println("\nDoctor: " + temp.getDoctor().getPersonalData().getName());
-			System.out.println("Patient: " + temp.getPatient().getPersonalData().getName());
-			System.out.println("Appointment time: " + temp.getGregorianCalendar().getTime());
-		}
 	}
 }
