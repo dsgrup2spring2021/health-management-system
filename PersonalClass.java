@@ -1,11 +1,6 @@
-
-
-import java.util.Scanner;
-
 /**
  * A class for all people's same features
  * (all people have name ,surname,id,mail and password)
- * @author Ozan Argit Onceken
  */
 public class PersonalClass{
 	private static int idHolder = 0;
@@ -35,24 +30,6 @@ public class PersonalClass{
 		idHolder++;
 	}
 
-	/**
-	 * for change something in profile
-	 */
-	public void edit() {
-		Scanner x=new Scanner(System.in);
-		//this.setId(idHolder);
-		System.out.println("Name:");
-		this.setName(x.nextLine());
-		System.out.println("Surname");
-		this.setSurname(x.nextLine());
-		System.out.println("Mail:");
-		this.setMail(x.nextLine());
-		System.out.println("Password:");
-		this.setPassword(x.nextLine());
-		//idHolder++;
-		x.close();
-
-	}
 	/**
 	 * gets id
 	 * @return			returns id
@@ -125,16 +102,8 @@ public class PersonalClass{
 	}
 
 	public int compareTo(PersonalClass o) {
-	/*
-		if(o.getMail().equals(this.getMail())){
-			if(o.getPassword().equals(this.getPassword()))
-				return 0;
-		}
-	*/
 		return o.getMail().compareTo(this.getMail());
 	}
-
-
 	@Override
 	public String toString(){
 		StringBuilder stringBuilder = new StringBuilder();

@@ -18,8 +18,9 @@ public class Prescription{
 	 * to create empty prescription for the patient
 	 * @param patient owner of the prescription
 	 */
-	public Prescription(Patient patient){
+	public Prescription(Doctor doctor, Patient patient){
 		this.patient = patient;
+		this.doctor=doctor;
 		meds = new TreeMap<>();
 	}
 
@@ -54,20 +55,10 @@ public class Prescription{
 		meds.put(medicine.getId(), medicine);
 		return true;
 	}
-
-	@Override
-	public String toString(){
-		Medicine[] sortedMeds = new Medicine[this.getMedicines().size()];
-		this.getMedicines().values().toArray(sortedMeds);
-		sort(sortedMeds);
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("The patient's information: " + patient + "\nThe Prescription: \n");
-		int n = sortedMeds.length;
-		for (int i = 0; i < n; ++i)
-			stringBuilder.append(sortedMeds[i]+"\n");
-		return stringBuilder.toString();
-	}
-
+	/**
+	 * Sorts medicines according to their cost.
+	 * @param arr Value array
+	 */
 	static public void sort(Medicine[] arr) {
 		int n = arr.length;
 
@@ -107,9 +98,66 @@ public class Prescription{
 			Medicine swap = arr[i];
 			arr[i] = arr[largest];
 			arr[largest] = swap;
-
 			// Recursively heapify the affected sub-tree
 			heapify(arr, n, largest);
 		}
+	}
+
+	@Override
+	public String toString(){
+		Medicine[] sortedMeds = new Medicine[this.getMedicines().size()];
+		this.getMedicines().values().toArray(sortedMeds);
+		sort(sortedMeds);
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("\nThe Prescription: \n");
+		int n = sortedMeds.length;
+		for (int i = 0; i < n; ++i)
+			stringBuilder.append(sortedMeds[i]+"\n");
+		return stringBuilder.toString();
+	}
+	/**
+	 * Prints discounted costs for medicines.
+	 */
+	public void printDiscountedPrescribes(){
+		Medicine[] sortedMeds = new Medicine[this.getMedicines().size()];
+		this.getMedicines().values().toArray(sortedMeds);
+		sort(sortedMeds);
+		StringBuilder stringBuilder = new StringBuilder();
+		System.out.println("\nThe Prescription:");
+		int n = sortedMeds.length;
+		for (int i = 0; i < n; ++i)
+			sortedMeds[i].printDiscountedPrice();
+	}
+	/**
+	 * It calculates total cost for given prescription. It takes care for contracts.
+	 * @param p pharmacist
+	 * @param d doctor
+	 * @return total cost
+	 */
+	public double medicineCost(Pharmacist p , Doctor d){
+		Medicine[] medicines = new Medicine[this.getMedicines().size()];
+		meds.values().toArray(medicines);
+		double total = 0.0;
+		for (int i = 0; i < medicines.length; i++) {
+			total+=medicines[i].getCost();
+		}
+		if (getPatient().getHospital().getRelatedUsers().isEdge(p, d)){
+			return total/2;
+		}
+		return total;
+	}
+	/**
+	 * Gets related doctor.
+	 * @return Doctor
+	 */
+	public Doctor getDoctor() {
+		return this.doctor;
+	}
+	/**
+	 * Changes Related Doctor.
+	 * @param doctor Doctor
+	 */
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
 	}
 }
